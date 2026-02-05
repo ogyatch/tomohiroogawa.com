@@ -24,7 +24,7 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 			/* Reset & Base */
 			* { box-sizing: border-box; }
 
-			/* THE FIX: スクロールバーの領域を常に予約 */
+			/* スクロールバーの軸ズレ防止 */
 			html {
 				scrollbar-gutter: stable;
 			}
@@ -69,21 +69,22 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				margin-bottom: 5rem;
 			}
 
-			h1 {
-				font-size: 2rem;
-				font-weight: 600;
-				margin: 0;
-				line-height: 1.2;
-				letter-spacing: 0.02em;
-			}
-
+			/* Meta Data: トップページと完全一致させる */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #888;
 				margin-bottom: 0.6rem;
 				display: flex;
-				gap: 1.2rem;
+				gap: 1rem; /* 1.2rem -> 1rem: 修正箇所 */
+			}
+
+			h1 {
+				font-size: 2rem;
+				font-weight: 600;
+				margin: 0;
+				line-height: 1.2;
+				letter-spacing: 0.02em;
 			}
 
 			main {
