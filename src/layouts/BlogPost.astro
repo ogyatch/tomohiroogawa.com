@@ -23,6 +23,11 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 		<style>
 			/* Reset & Base */
 			* { box-sizing: border-box; }
+
+			/* THE FIX: スクロールバーの領域を常に予約 */
+			html {
+				scrollbar-gutter: stable;
+			}
 			
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
@@ -44,10 +49,9 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				flex-direction: column;
 			}
 
-			/* Global Site Identity (Top Pageのh1と同じスタイル) */
 			.site-identity {
 				display: block;
-				margin-bottom: 6rem; /* Top PageのHeader余白と合わせる */
+				margin-bottom: 6rem;
 				font-size: 1.2rem;
 				font-weight: 600;
 				letter-spacing: 0.05em;
@@ -65,7 +69,6 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				margin-bottom: 5rem;
 			}
 
-			/* Article Title */
 			h1 {
 				font-size: 2rem;
 				font-weight: 600;
@@ -74,7 +77,6 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				letter-spacing: 0.02em;
 			}
 
-			/* Meta Data */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
@@ -84,7 +86,6 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				gap: 1.2rem;
 			}
 
-			/* Content */
 			main {
 				font-size: 1rem;
 				line-height: 1.8;

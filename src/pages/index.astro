@@ -19,6 +19,11 @@ const sortedPosts = posts.sort((a, b) =>
 		<style>
 			/* Reset & Base */
 			* { box-sizing: border-box; }
+
+			/* THE FIX: スクロールバーの領域を常に予約し、軸ズレを防ぐ */
+			html {
+				scrollbar-gutter: stable;
+			}
 			
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
@@ -44,7 +49,6 @@ const sortedPosts = posts.sort((a, b) =>
 				margin-bottom: 6rem;
 			}
 
-			/* Site Title (Global Identity) */
 			h1 {
 				font-size: 1.2rem;
 				font-weight: 600;
