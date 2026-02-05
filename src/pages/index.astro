@@ -17,39 +17,62 @@ const sortedPosts = posts.sort((a, b) =>
 			
 			body {
 				font-family: "Helvetica Neue", Arial, sans-serif;
-				background-color: #fff; /* Pure White for Structure */
+				background-color: #fff;
 				color: #111;
 				margin: 0;
 				display: flex;
 				justify-content: center;
+				/* コンテンツが少なくても線が画面下まで伸びるようにする */
 				min-height: 100vh;
 			}
 
-			/* The Grid Container: 記事ページと完全一致させる */
+			/* The Structural Container */
 			.grid-container {
 				width: 100%;
-				max-width: 720px; /* Max Bill Number */
-				padding: 6rem 2rem;
+				max-width: 720px; /* Max Bill Width */
+				/* 上下の余白は無くし、線が画面端まで届くようにする（必要ならpaddingを入れる） */
+				padding: 4rem 2rem; 
 				display: flex;
-				flex-direction: column;
+			}
+
+			/* THE AXIS: すべての要素の親となる「線」 */
+			.axis-spine {
+				/* 線を黒く、明確にする */
+				border-left: 1px solid #111; 
+				padding-left: 3rem; /* 線と文字の距離を固定 */
+				min-height: 100%; /* 親の高さに合わせて伸びる */
+				width: 100%;
 			}
 
 			header {
-				margin-bottom: 4rem;
-				padding-left: 3rem; /* 軸からの距離 */
-				border-left: 1px solid #e5e5e5; /* The Axis */
+				margin-bottom: 5rem;
+				position: relative;
+			}
+
+			/* Headerの横線（タイトルの開始位置を示す） */
+			header::before {
+				content: '';
+				position: absolute;
+				left: -3rem; /* padding-left分戻る＝線の上 */
+				top: 0.6em; /* 文字の中心 */
+				width: 12px;
+				height: 1px;
+				background-color: #111;
 			}
 
 			h1 {
 				font-size: 1.2rem;
-				font-weight: 700; /* Hofmann Strong */
+				font-weight: 700;
 				letter-spacing: 0.05em;
 				margin: 0 0 0.2rem 0;
 				text-transform: uppercase;
+				line-height: 1;
 			}
 			.subtitle {
 				font-size: 0.75rem;
 				color: #666;
+				display: block;
+				margin-top: 0.5rem;
 			}
 
 			/* List Structure */
@@ -57,22 +80,21 @@ const sortedPosts = posts.sort((a, b) =>
 				list-style: none;
 				padding: 0;
 				margin: 0;
-				border-left: 1px solid #e5e5e5; /* The Axis (Continuous) */
 			}
 
 			.entry {
 				position: relative;
-				padding-left: 3rem; /* Headerと一致 */
 				padding-bottom: 4rem;
 			}
 
-			/* The Tick (目盛り) - Sol LeWitt Style */
+			/* THE TICK: 記事の目盛り */
 			.entry::before {
 				content: '';
 				position: absolute;
-				left: 0;
-				top: 0.6em;
-				width: 12px; /* 明確な目盛り */
+				/* パディング分戻すことで、確実に縦線と交差させる */
+				left: -3rem; 
+				top: 0.5em; /* 日付の中心に合わせる */
+				width: 12px; /* 長さをHeaderと統一 */
 				height: 1px;
 				background-color: #111;
 			}
@@ -80,19 +102,21 @@ const sortedPosts = posts.sort((a, b) =>
 			.meta {
 				font-family: monospace;
 				font-size: 0.75rem;
-				color: #999;
+				color: #666; /* 少し濃くして視認性確保 */
 				margin-bottom: 0.5rem;
 				display: flex;
-				gap: 1rem;
+				gap: 1.5rem; /* 番号と日付の距離 */
+				align-items: center;
+				line-height: 1;
 			}
 
 			.title-link {
 				display: block;
 				text-decoration: none;
 				color: #111;
-				font-size: 1.1rem;
+				font-size: 1.4rem; /* サイズアップして強さを出す */
 				font-weight: 400;
-				line-height: 1.4;
+				line-height: 1.3;
 				transition: opacity 0.2s;
 			}
 			.title-link:hover { opacity: 0.6; }
@@ -100,31 +124,33 @@ const sortedPosts = posts.sort((a, b) =>
 	</head>
 	<body>
 		<div class="grid-container">
-			<header>
-				<h1>Tomohiro Ogawa</h1>
-				<span class="subtitle">Poet of Technology</span>
-			</header>
+			<div class="axis-spine">
+				<header>
+					<h1>Tomohiro Ogawa</h1>
+					<span class="subtitle">Poet of Technology</span>
+				</header>
 
-			<main>
-				<ul>
-					{sortedPosts.map((post, index) => {
-						const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
-						return (
-							<li class="entry">
-								<div class="meta">
-									<span>{entryNumber}</span>
-									<time datetime={post.frontmatter.pubDate}>
-										{new Date(post.frontmatter.pubDate).toLocaleDateString('en-CA')}
-									</time>
-								</div>
-								<a href={post.url} class="title-link">
-									{post.frontmatter.title}
-								</a>
-							</li>
-						)
-					})}
-				</ul>
-			</main>
+				<main>
+					<ul>
+						{sortedPosts.map((post, index) => {
+							const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
+							return (
+								<li class="entry">
+									<div class="meta">
+										<span>{entryNumber}</span>
+										<time datetime={post.frontmatter.pubDate}>
+											{new Date(post.frontmatter.pubDate).toLocaleDateString('en-CA')}
+										</time>
+									</div>
+									<a href={post.url} class="title-link">
+										{post.frontmatter.title}
+									</a>
+								</li>
+							)
+						})}
+					</ul>
+				</main>
+			</div>
 		</div>
 	</body>
 </html>
