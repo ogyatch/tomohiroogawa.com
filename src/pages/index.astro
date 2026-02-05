@@ -1,8 +1,5 @@
 ---
-// Logic: 記事データの収集と整形
 const posts = await Astro.glob('./journal/*.md');
-
-// 日付の新しい順にソート
 const sortedPosts = posts.sort((a, b) => 
   new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
 );
@@ -15,130 +12,119 @@ const sortedPosts = posts.sort((a, b) =>
 		<meta name="viewport" content="width=device-width" />
 		<title>Tomohiro Ogawa</title>
 		<style>
-			/* Aesthetics: Centered Axis Style */
+			/* Swiss Style Reset */
+			* { box-sizing: border-box; }
+			
 			body {
 				font-family: "Helvetica Neue", Arial, sans-serif;
-				/* フレックスボックスで全体を強制的に中央揃えにする */
+				background-color: #fff; /* Pure White for Structure */
+				color: #111;
+				margin: 0;
+				display: flex;
+				justify-content: center;
+				min-height: 100vh;
+			}
+
+			/* The Grid Container: 記事ページと完全一致させる */
+			.grid-container {
+				width: 100%;
+				max-width: 720px; /* Max Bill Number */
+				padding: 6rem 2rem;
 				display: flex;
 				flex-direction: column;
-				align-items: center; 
-				min-height: 100vh;
-				margin: 0;
-				padding: 6rem 2rem;
-				color: #333;
-				background-color: #f9f9f9;
 			}
 
 			header {
-				margin-bottom: 5rem;
-				text-align: center; /* 名前は中央 */
-				width: 100%;
+				margin-bottom: 4rem;
+				padding-left: 3rem; /* 軸からの距離 */
+				border-left: 1px solid #e5e5e5; /* The Axis */
 			}
+
 			h1 {
-				font-weight: 300;
-				letter-spacing: 0.2em;
-				margin: 0 0 0.8rem 0;
-				font-size: 1.5rem;
-			}
-			.subtitle {
-				font-size: 0.7rem;
-				color: #aaa;
-				letter-spacing: 0.3em;
+				font-size: 1.2rem;
+				font-weight: 700; /* Hofmann Strong */
+				letter-spacing: 0.05em;
+				margin: 0 0 0.2rem 0;
 				text-transform: uppercase;
 			}
-
-			/* Timeline Architecture */
-			main {
-				/* コンテンツの幅を制限し、中央の柱（Pillar）にする */
-				max-width: 600px;
-				width: 100%;
-				/* 時間軸の線 */
-				border-left: 1px solid #e0e0e0; 
-				padding-left: 2.5rem;
-				padding-bottom: 4rem;
-				position: relative;
+			.subtitle {
+				font-size: 0.75rem;
+				color: #666;
 			}
 
-			/* 記事リストのデザイン */
+			/* List Structure */
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				border-left: 1px solid #e5e5e5; /* The Axis (Continuous) */
+			}
+
 			.entry {
 				position: relative;
-				margin-bottom: 5rem; /* 余白を増やして呼吸させる */
+				padding-left: 3rem; /* Headerと一致 */
+				padding-bottom: 4rem;
 			}
+
+			/* The Tick (目盛り) - Sol LeWitt Style */
 			.entry::before {
 				content: '';
 				position: absolute;
-				left: -2.85rem; /* 線の位置にドットを合わせる調整 */
-				top: 0.5rem;
-				width: 5px;
-				height: 5px;
-				background-color: #333;
-				border-radius: 50%;
-				transition: transform 0.2s;
-			}
-			.entry:hover::before {
-				transform: scale(1.8);
+				left: 0;
+				top: 0.6em;
+				width: 12px; /* 明確な目盛り */
+				height: 1px;
+				background-color: #111;
 			}
 
 			.meta {
+				font-family: monospace;
+				font-size: 0.75rem;
+				color: #999;
+				margin-bottom: 0.5rem;
 				display: flex;
 				gap: 1rem;
-				font-family: monospace;
-				font-size: 0.7rem;
-				color: #aaa;
-				margin-bottom: 0.4rem;
-				letter-spacing: 0.05em;
 			}
-			.number { color: #ddd; }
 
 			.title-link {
 				display: block;
 				text-decoration: none;
-				color: #333;
+				color: #111;
 				font-size: 1.1rem;
 				font-weight: 400;
-				line-height: 1.5;
+				line-height: 1.4;
 				transition: opacity 0.2s;
 			}
-			.title-link:hover { opacity: 0.5; }
-			
-			.excerpt {
-				margin-top: 0.8rem;
-				font-size: 0.85rem;
-				color: #777;
-				line-height: 1.7;
-				font-weight: 300;
-			}
+			.title-link:hover { opacity: 0.6; }
 		</style>
 	</head>
 	<body>
-		<header>
-			<h1>Tomohiro Ogawa</h1>
-			<span class="subtitle">Poet of Technology</span>
-		</header>
+		<div class="grid-container">
+			<header>
+				<h1>Tomohiro Ogawa</h1>
+				<span class="subtitle">Poet of Technology</span>
+			</header>
 
-		<main>
-			{sortedPosts.map((post, index) => {
-				const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
-				
-				return (
-					<article class="entry">
-						<div class="meta">
-							<span class="number">#{entryNumber}</span>
-							<time datetime={post.frontmatter.pubDate}>
-								{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
-									year: 'numeric', month: '2-digit', day: '2-digit'
-								}).replace(/\//g, '.')}
-							</time>
-						</div>
-						<a href={post.url} class="title-link">
-							{post.frontmatter.title}
-						</a>
-						{post.frontmatter.description && (
-							<p class="excerpt">{post.frontmatter.description}</p>
-						)}
-					</article>
-				)
-			})}
-		</main>
+			<main>
+				<ul>
+					{sortedPosts.map((post, index) => {
+						const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
+						return (
+							<li class="entry">
+								<div class="meta">
+									<span>{entryNumber}</span>
+									<time datetime={post.frontmatter.pubDate}>
+										{new Date(post.frontmatter.pubDate).toLocaleDateString('en-CA')}
+									</time>
+								</div>
+								<a href={post.url} class="title-link">
+									{post.frontmatter.title}
+								</a>
+							</li>
+						)
+					})}
+				</ul>
+			</main>
+		</div>
 	</body>
 </html>
