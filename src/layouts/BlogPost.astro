@@ -10,14 +10,14 @@ const { frontmatter } = Astro.props;
 		
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
 
 		<style>
 			/* Reset & Base */
 			* { box-sizing: border-box; }
 			
 			body {
-				font-family: "Inter", "Noto Sans JP", sans-serif;
+				font-family: "IBM Plex Sans JP", sans-serif;
 				font-weight: 400;
 				font-feature-settings: "palt";
 				background-color: #fff;
@@ -44,7 +44,7 @@ const { frontmatter } = Astro.props;
 				text-decoration: none;
 				color: #999;
 				transition: color 0.2s;
-				font-family: "Inter", sans-serif; /* 英語なのでInter */
+				font-family: "IBM Plex Mono", monospace; /* コード的な帰還 */
 			}
 			.back-link:hover { color: #111; }
 
@@ -54,14 +54,13 @@ const { frontmatter } = Astro.props;
 
 			h1 {
 				font-size: 2rem;
-				font-weight: 600; /* 太すぎず、構造的な強さ */
+				font-weight: 600;
 				margin: 0 0 1rem 0;
 				line-height: 1.2;
-				letter-spacing: -0.01em;
+				letter-spacing: 0.02em;
 			}
 			time {
-				font-family: "Inter", sans-serif;
-				font-feature-settings: "tnum";
+				font-family: "IBM Plex Mono", monospace;
 				color: #666;
 				font-size: 0.8rem;
 				display: block;
@@ -82,7 +81,7 @@ const { frontmatter } = Astro.props;
 				font-weight: 600;
 				margin-top: 4rem;
 				margin-bottom: 1.5rem;
-				letter-spacing: 0.02em;
+				letter-spacing: 0.05em;
 			}
 			main :global(img) {
 				max-width: 100%;
@@ -100,9 +99,19 @@ const { frontmatter } = Astro.props;
 			main :global(blockquote) {
 				margin: 3rem 0;
 				padding-left: 1.5rem;
-				border-left: 1px solid #111;
+				border-left: 2px solid #111; /* 引用線は太く工業的に */
 				font-style: italic;
-				color: #555;
+				color: #444;
+			}
+			
+			/* コードブロックのデザイン（よりハッカーらしく） */
+			main :global(pre) {
+				font-family: "IBM Plex Mono", monospace;
+				background: #f4f4f4;
+				padding: 1.5rem;
+				overflow-x: auto;
+				font-size: 0.85rem;
+				margin: 2rem 0;
 			}
 		</style>
 	</head>
