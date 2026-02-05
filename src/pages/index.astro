@@ -1,4 +1,21 @@
-/* Aesthetics: Centered Axis Style */
+---
+// Logic: 記事データの収集と整形
+const posts = await Astro.glob('./journal/*.md');
+
+// 日付の新しい順にソート
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+);
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Tomohiro Ogawa</title>
+		<style>
+			/* Aesthetics: Centered Axis Style */
 			body {
 				font-family: "Helvetica Neue", Arial, sans-serif;
 				/* フレックスボックスで全体を強制的に中央揃えにする */
@@ -14,12 +31,12 @@
 
 			header {
 				margin-bottom: 5rem;
-				text-align: center; /* 名前は中央に戻す */
+				text-align: center; /* 名前は中央 */
 				width: 100%;
 			}
 			h1 {
-				font-weight: 300; /* より細く、洗練させる */
-				letter-spacing: 0.2em; /* 字間を広げて気品を出す */
+				font-weight: 300;
+				letter-spacing: 0.2em;
 				margin: 0 0 0.8rem 0;
 				font-size: 1.5rem;
 			}
@@ -37,12 +54,12 @@
 				width: 100%;
 				/* 時間軸の線 */
 				border-left: 1px solid #e0e0e0; 
-				padding-left: 2.5rem; /* 線と文字の距離 */
+				padding-left: 2.5rem;
 				padding-bottom: 4rem;
 				position: relative;
 			}
 
-			/* 以下、記事リストのデザインは維持 */
+			/* 記事リストのデザイン */
 			.entry {
 				position: relative;
 				margin-bottom: 5rem; /* 余白を増やして呼吸させる */
@@ -91,3 +108,37 @@
 				line-height: 1.7;
 				font-weight: 300;
 			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Tomohiro Ogawa</h1>
+			<span class="subtitle">Poet of Technology</span>
+		</header>
+
+		<main>
+			{sortedPosts.map((post, index) => {
+				const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
+				
+				return (
+					<article class="entry">
+						<div class="meta">
+							<span class="number">#{entryNumber}</span>
+							<time datetime={post.frontmatter.pubDate}>
+								{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
+									year: 'numeric', month: '2-digit', day: '2-digit'
+								}).replace(/\//g, '.')}
+							</time>
+						</div>
+						<a href={post.url} class="title-link">
+							{post.frontmatter.title}
+						</a>
+						{post.frontmatter.description && (
+							<p class="excerpt">{post.frontmatter.description}</p>
+						)}
+					</article>
+				)
+			})}
+		</main>
+	</body>
+</html>
