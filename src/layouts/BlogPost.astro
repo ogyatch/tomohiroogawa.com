@@ -8,7 +8,7 @@ const { frontmatter } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<title>{frontmatter.title} | Tomohiro Ogawa</title>
 		<style>
-			/* Swiss Style Reset */
+			/* Reset & Base */
 			* { box-sizing: border-box; }
 			
 			body {
@@ -21,59 +21,37 @@ const { frontmatter } = Astro.props;
 				min-height: 100vh;
 			}
 
-			/* The Structural Container (Indexと完全一致) */
+			/* Container: Indexと完全一致の空間 */
 			.grid-container {
 				width: 100%;
 				max-width: 720px;
-				padding: 4rem 2rem; 
-				display: flex;
-			}
-
-			/* THE AXIS SPINE (Indexと完全一致) */
-			.axis-spine {
-				border-left: 1px solid #111; 
-				padding-left: 3rem; 
-				min-height: 100%;
-				width: 100%;
+				padding: 6rem 2rem;
 				display: flex;
 				flex-direction: column;
 			}
 
-			/* Navigation (座標への帰還) */
+			/* Navigation */
 			.nav {
-				margin-bottom: 2rem;
+				margin-bottom: 4rem;
 				font-family: monospace;
 				font-size: 0.75rem;
 			}
 			.back-link {
 				text-decoration: none;
 				color: #999;
-				display: inline-block;
 				transition: color 0.2s;
 			}
 			.back-link:hover { color: #111; }
 
-			/* Header Structure */
+			/* Header */
 			header {
-				margin-bottom: 4rem;
-				position: relative;
-			}
-
-			/* THE TICK: タイトルを軸に固定する楔 */
-			header::before {
-				content: '';
-				position: absolute;
-				left: -3rem; /* padding-left分戻り、縦線と接触させる */
-				top: 0.6em; /* タイトルの中心 */
-				width: 12px; /* Indexの目盛りと同じ長さ */
-				height: 1px;
-				background-color: #111;
+				margin-bottom: 5rem;
 			}
 
 			h1 {
-				font-size: 1.8rem;
+				font-size: 2rem;
 				font-weight: 700;
-				margin: 0 0 0.5rem 0;
+				margin: 0 0 1rem 0;
 				line-height: 1.2;
 				letter-spacing: -0.02em;
 			}
@@ -84,31 +62,31 @@ const { frontmatter } = Astro.props;
 				display: block;
 			}
 
-			/* Content Typography */
+			/* Content */
 			main {
 				font-size: 1rem;
-				line-height: 1.7;
-				/* コンテンツが尽きても線が伸びるように */
-				flex-grow: 1; 
+				line-height: 1.8;
+				font-weight: 400;
 			}
 			main :global(p) {
-				margin-bottom: 1.5rem;
+				margin-bottom: 2rem;
 				text-align: justify;
 			}
 			main :global(h2) {
 				font-size: 1.2rem;
 				font-weight: 700;
-				margin-top: 3rem;
-				margin-bottom: 1rem;
+				margin-top: 4rem;
+				margin-bottom: 1.5rem;
 				text-transform: uppercase;
 				letter-spacing: 0.05em;
 			}
 			main :global(img) {
 				max-width: 100%;
 				height: auto;
-				border: 1px solid #eee;
 				display: block;
-				margin: 2rem 0;
+				margin: 3rem 0;
+				/* 画像の枠線もノイズになりうるので除去、あるいは極薄に */
+				border: 1px solid #f0f0f0; 
 			}
 			main :global(ul) {
 				padding-left: 1rem;
@@ -118,31 +96,31 @@ const { frontmatter } = Astro.props;
 				margin-bottom: 0.5rem;
 			}
 			main :global(blockquote) {
-				margin: 2rem 0;
-				padding-left: 1rem;
-				border-left: 2px solid #111;
+				margin: 3rem 0;
+				padding-left: 1.5rem;
+				/* 引用の線だけは「機能」として残すが、極めて細く */
+				border-left: 1px solid #111;
 				font-style: italic;
+				color: #555;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="grid-container">
-			<div class="axis-spine">
-				<nav class="nav">
-					<a href="/" class="back-link">&lt; INDEX</a>
-				</nav>
+			<nav class="nav">
+				<a href="/" class="back-link">&lt; INDEX</a>
+			</nav>
 
-				<header>
-					<h1>{frontmatter.title}</h1>
-					<time datetime={frontmatter.pubDate}>
-						{new Date(frontmatter.pubDate).toLocaleDateString('en-CA')}
-					</time>
-				</header>
+			<header>
+				<h1>{frontmatter.title}</h1>
+				<time datetime={frontmatter.pubDate}>
+					{new Date(frontmatter.pubDate).toLocaleDateString('en-CA')}
+				</time>
+			</header>
 
-				<main>
-					<slot />
-				</main>
-			</div>
+			<main>
+				<slot />
+			</main>
 		</div>
 	</body>
 </html>
