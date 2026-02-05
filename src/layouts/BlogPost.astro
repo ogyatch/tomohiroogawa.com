@@ -1,5 +1,16 @@
 ---
-const { frontmatter } = Astro.props;
+const { frontmatter, url } = Astro.props;
+
+// Logic: 全記事を取得して、現在の記事が「何番目か」を計算する
+const posts = await Astro.glob('../pages/journal/*.md');
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+);
+
+// 現在の記事のインデックスを探す
+const currentIndex = sortedPosts.findIndex((post) => post.url === url);
+// 記事総数 - インデックス = 連番（古い順なら index + 1）
+const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 ---
 
 <html lang="ja">
@@ -44,7 +55,7 @@ const { frontmatter } = Astro.props;
 				text-decoration: none;
 				color: #999;
 				transition: color 0.2s;
-				font-family: "IBM Plex Mono", monospace; /* コード的な帰還 */
+				font-family: "IBM Plex Mono", monospace;
 			}
 			.back-link:hover { color: #111; }
 
@@ -52,18 +63,22 @@ const { frontmatter } = Astro.props;
 				margin-bottom: 5rem;
 			}
 
+			/* Meta Data: Top Pageと完全統一 */
+			.meta {
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.75rem;
+				color: #888;
+				margin-bottom: 0.6rem;
+				display: flex;
+				gap: 1.2rem;
+			}
+
 			h1 {
 				font-size: 2rem;
 				font-weight: 600;
-				margin: 0 0 1rem 0;
+				margin: 0; /* 上下の余白はMetaとMainで制御 */
 				line-height: 1.2;
 				letter-spacing: 0.02em;
-			}
-			time {
-				font-family: "IBM Plex Mono", monospace;
-				color: #666;
-				font-size: 0.8rem;
-				display: block;
 			}
 
 			/* Content */
@@ -99,12 +114,11 @@ const { frontmatter } = Astro.props;
 			main :global(blockquote) {
 				margin: 3rem 0;
 				padding-left: 1.5rem;
-				border-left: 2px solid #111; /* 引用線は太く工業的に */
+				border-left: 2px solid #111;
 				font-style: italic;
 				color: #444;
 			}
 			
-			/* コードブロックのデザイン（よりハッカーらしく） */
 			main :global(pre) {
 				font-family: "IBM Plex Mono", monospace;
 				background: #f4f4f4;
@@ -122,10 +136,13 @@ const { frontmatter } = Astro.props;
 			</nav>
 
 			<header>
+				<div class="meta">
+					<span>#{entryNumber}</span>
+					<time datetime={frontmatter.pubDate}>
+						{new Date(frontmatter.pubDate).toLocaleDateString('en-CA')}
+					</time>
+				</div>
 				<h1>{frontmatter.title}</h1>
-				<time datetime={frontmatter.pubDate}>
-					{new Date(frontmatter.pubDate).toLocaleDateString('en-CA')}
-				</time>
 			</header>
 
 			<main>
