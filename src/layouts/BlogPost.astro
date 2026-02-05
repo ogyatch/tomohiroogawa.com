@@ -5,52 +5,152 @@ const { frontmatter } = Astro.props;
 <html lang="ja">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
 		<title>{frontmatter.title} | Tomohiro Ogawa</title>
 		<style>
+			/* Base Aesthetics (Homepageと共通) */
 			body {
 				font-family: "Helvetica Neue", Arial, sans-serif;
-				line-height: 1.6;
+				background-color: #f9f9f9;
 				color: #333;
-				max-width: 700px;
+				margin: 0;
+				padding: 0;
+				line-height: 1.8; /* 読むためのゆとり */
+			}
+
+			/* Layout Architecture */
+			.container {
+				max-width: 800px;
 				margin: 0 auto;
 				padding: 4rem 2rem;
+				position: relative;
 			}
-			header {
+
+			/* The Axis (時間軸の継承) */
+			.content-wrapper {
+				padding-left: 2rem;
+				border-left: 1px solid #e0e0e0;
+				min-height: 80vh; /* 画面の高さ分は線を引く */
+			}
+
+			/* Navigation (Timelineへの帰還) */
+			.back-link {
+				display: inline-block;
 				margin-bottom: 3rem;
-				border-bottom: 1px solid #eee;
-				padding-bottom: 1rem;
+				text-decoration: none;
+				color: #999;
+				font-size: 0.8rem;
+				letter-spacing: 0.1em;
+				transition: color 0.2s;
+				font-family: monospace;
+			}
+			.back-link:hover {
+				color: #333;
+			}
+
+			/* Header Typography */
+			header {
+				margin-bottom: 4rem;
 			}
 			h1 {
 				font-size: 2rem;
-				font-weight: 300; /* Minimal */
-				margin: 0 0 0.5rem 0;
+				font-weight: 400; /* Minimal weight */
+				letter-spacing: 0.05em;
+				margin: 0 0 1rem 0;
+				line-height: 1.3;
 			}
 			time {
-				font-size: 0.85rem;
-				color: #888;
 				font-family: monospace;
+				color: #999;
+				font-size: 0.85rem;
+				display: block;
 			}
-			/* Markdownの中身用スタイル */
+
+			/* Markdown Content Styling (ここが記事の美しさを決める) */
 			main {
-				font-weight: 400;
+				font-size: 1rem;
+				font-weight: 300; /* 細めの文字で洗練させる */
 			}
-			h2 {
-				margin-top: 2rem;
-				font-size: 1.2rem;
+			
+			/* 見出し */
+			main :global(h2) {
+				font-size: 1.4rem;
+				font-weight: 500;
+				margin-top: 3rem;
+				margin-bottom: 1.5rem;
+				letter-spacing: 0.05em;
+			}
+			main :global(h3) {
+				font-size: 1.1rem;
 				font-weight: 600;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
 			}
-			ul {
+
+			/* 本文 */
+			main :global(p) {
+				margin-bottom: 1.5rem;
+				text-align: justify; /* 両端揃えでブロック感を出す */
+			}
+
+			/* リスト */
+			main :global(ul) {
 				padding-left: 1.2rem;
+				margin-bottom: 2rem;
+				color: #555;
+			}
+			main :global(li) {
+				margin-bottom: 0.5rem;
+			}
+
+			/* 引用 */
+			main :global(blockquote) {
+				margin: 2rem 0;
+				padding-left: 1.5rem;
+				border-left: 2px solid #333; /* 強いアクセント */
+				font-style: italic;
+				color: #666;
+			}
+
+			/* 画像 (100%幅で美しく表示) */
+			main :global(img) {
+				max-width: 100%;
+				height: auto;
+				display: block;
+				margin: 2rem 0;
+				border: 1px solid #eee; /* 薄い枠線で写真を締める */
+			}
+
+			/* コードブロック */
+			main :global(pre) {
+				background: #f1f1f1;
+				padding: 1rem;
+				border-radius: 4px;
+				overflow-x: auto;
+				margin: 2rem 0;
+				font-family: monospace;
+				font-size: 0.85rem;
 			}
 		</style>
 	</head>
 	<body>
-		<header>
-			<time>{frontmatter.pubDate}</time>
-			<h1>{frontmatter.title}</h1>
-		</header>
-		<main>
-			<slot />
-		</main>
+		<div class="container">
+			<div class="content-wrapper">
+				<a href="/" class="back-link">← TIMELINE</a>
+
+				<header>
+					<time datetime={frontmatter.pubDate}>
+						{new Date(frontmatter.pubDate).toLocaleDateString('en-US', {
+							year: 'numeric', month: '2-digit', day: '2-digit'
+						}).replace(/\//g, '.')}
+					</time>
+					<h1>{frontmatter.title}</h1>
+				</header>
+
+				<main>
+					<slot />
+				</main>
+			</div>
+		</div>
 	</body>
 </html>
