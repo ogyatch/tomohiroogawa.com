@@ -1,9 +1,8 @@
 ---
-// 1. Logic: 記事データの収集
-// journalフォルダ内の全Markdownファイルを取得
+// Logic: 記事データの収集と整形
 const posts = await Astro.glob('./journal/*.md');
 
-// 日付の新しい順に並び替え（Sort）
+// 日付の新しい順にソート
 const sortedPosts = posts.sort((a, b) => 
   new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
 );
@@ -16,57 +15,92 @@ const sortedPosts = posts.sort((a, b) =>
 		<meta name="viewport" content="width=device-width" />
 		<title>Tomohiro Ogawa</title>
 		<style>
-			/* Aesthetics: Minimal Design System */
+			/* Aesthetics: Tei-ku Style */
 			body {
 				font-family: "Helvetica Neue", Arial, sans-serif;
-				max-width: 600px;
+				max-width: 800px; /* 少し幅を広げる */
 				margin: 0 auto;
-				padding: 4rem 2rem;
+				padding: 6rem 2rem;
 				color: #333;
+				background-color: #f9f9f9; /* 紙のような白 */
 			}
 			header {
-				margin-bottom: 4rem;
-				text-align: center;
+				margin-bottom: 6rem;
+				text-align: left; /* 左揃えにして軸を意識させる */
+				padding-left: 2rem; /* タイムラインの軸と合わせる */
 			}
 			h1 {
-				font-weight: 300;
-				letter-spacing: 0.1em;
-				margin-bottom: 0.5rem;
-				font-size: 1.5rem;
+				font-weight: 400;
+				letter-spacing: 0.15em;
+				margin: 0 0 0.5rem 0;
+				font-size: 1.4rem;
 			}
 			.subtitle {
-				font-size: 0.8rem;
-				color: #888;
-				text-transform: uppercase;
-				letter-spacing: 0.2em;
-			}
-			
-			/* リストの美学 */
-			ul {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-			li {
-				margin-bottom: 1.5rem;
-				display: flex;
-				align-items: baseline;
-				gap: 1.5rem;
-			}
-			time {
-				font-family: monospace;
+				font-size: 0.75rem;
 				color: #999;
-				font-size: 0.85rem;
-				min-width: 100px; /* 日付の位置を揃える */
+				letter-spacing: 0.2em;
+				text-transform: uppercase;
 			}
-			a {
+
+			/* Timeline Architecture */
+			.timeline {
+				position: relative;
+				padding-left: 2rem; /* 左側のスペース確保 */
+				border-left: 1px solid #e0e0e0; /* 時間軸の線 */
+			}
+			.entry {
+				position: relative;
+				margin-bottom: 4rem; /* 記事ごとの余白をたっぷりと */
+				padding-left: 1.5rem;
+			}
+			/* 軸上のポイント（現在位置） */
+			.entry::before {
+				content: '';
+				position: absolute;
+				left: -2.35rem; /* 線の位置に合わせる */
+				top: 0.4rem;
+				width: 6px;
+				height: 6px;
+				background-color: #333; /* 点の色 */
+				border-radius: 50%;
+				transition: transform 0.2s;
+			}
+			.entry:hover::before {
+				transform: scale(1.5); /* ホバー時に点が少し大きくなる */
+			}
+
+			/* メタデータ（日付・番号） */
+			.meta {
+				display: flex;
+				gap: 1rem;
+				font-family: monospace;
+				font-size: 0.75rem;
+				color: #999;
+				margin-bottom: 0.5rem;
+				letter-spacing: 0.05em;
+			}
+			.number {
+				color: #ccc; /* 番号は薄く */
+			}
+
+			/* タイトルリンク */
+			.title-link {
+				display: block;
 				text-decoration: none;
 				color: #333;
-				border-bottom: 1px solid transparent;
-				transition: border-color 0.2s;
+				font-size: 1.2rem;
+				font-weight: 500;
+				line-height: 1.4;
+				transition: opacity 0.2s;
 			}
-			a:hover {
-				border-bottom-color: #333;
+			.title-link:hover {
+				opacity: 0.6;
+			}
+			.excerpt {
+				margin-top: 0.5rem;
+				font-size: 0.9rem;
+				color: #666;
+				line-height: 1.6;
 			}
 		</style>
 	</head>
@@ -76,17 +110,32 @@ const sortedPosts = posts.sort((a, b) =>
 			<span class="subtitle">Poet of Technology</span>
 		</header>
 
-		<main>
-			<ul>
-				{sortedPosts.map(post => (
-					<li>
-						<time datetime={post.frontmatter.pubDate}>
-							{new Date(post.frontmatter.pubDate).toLocaleDateString('ja-JP')}
-						</time>
-						<a href={post.url}>{post.frontmatter.title}</a>
-					</li>
-				))}
-			</ul>
+		<main class="timeline">
+			{sortedPosts.map((post, index) => {
+				// 連番を計算 (総数 - インデックス) で新しい順に番号を振る
+				// ※古い順なら index + 1
+				const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
+				
+				return (
+					<article class="entry">
+						<div class="meta">
+							<span class="number">#{entryNumber}</span>
+							<time datetime={post.frontmatter.pubDate}>
+								{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
+									year: 'numeric', month: '2-digit', day: '2-digit'
+								}).replace(/\//g, '.')}
+							</time>
+						</div>
+						<a href={post.url} class="title-link">
+							{post.frontmatter.title}
+						</a>
+						{/* descriptionがあれば表示 */}
+						{post.frontmatter.description && (
+							<p class="excerpt">{post.frontmatter.description}</p>
+						)}
+					</article>
+				)
+			})}
 		</main>
 	</body>
 </html>
