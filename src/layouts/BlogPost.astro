@@ -7,12 +7,19 @@ const { frontmatter } = Astro.props;
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 		<title>{frontmatter.title} | Tomohiro Ogawa</title>
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+
 		<style>
 			/* Reset & Base */
 			* { box-sizing: border-box; }
 			
 			body {
-				font-family: "Helvetica Neue", Arial, sans-serif;
+				font-family: "Inter", "Noto Sans JP", sans-serif;
+				font-weight: 400;
+				font-feature-settings: "palt";
 				background-color: #fff;
 				color: #111;
 				margin: 0;
@@ -21,7 +28,6 @@ const { frontmatter } = Astro.props;
 				min-height: 100vh;
 			}
 
-			/* Container: Indexと完全一致の空間 */
 			.grid-container {
 				width: 100%;
 				max-width: 720px;
@@ -30,33 +36,32 @@ const { frontmatter } = Astro.props;
 				flex-direction: column;
 			}
 
-			/* Navigation */
 			.nav {
 				margin-bottom: 4rem;
-				font-family: monospace;
 				font-size: 0.75rem;
 			}
 			.back-link {
 				text-decoration: none;
 				color: #999;
 				transition: color 0.2s;
+				font-family: "Inter", sans-serif; /* 英語なのでInter */
 			}
 			.back-link:hover { color: #111; }
 
-			/* Header */
 			header {
 				margin-bottom: 5rem;
 			}
 
 			h1 {
 				font-size: 2rem;
-				font-weight: 700;
+				font-weight: 600; /* 太すぎず、構造的な強さ */
 				margin: 0 0 1rem 0;
 				line-height: 1.2;
-				letter-spacing: -0.02em;
+				letter-spacing: -0.01em;
 			}
 			time {
-				font-family: monospace;
+				font-family: "Inter", sans-serif;
+				font-feature-settings: "tnum";
 				color: #666;
 				font-size: 0.8rem;
 				display: block;
@@ -74,19 +79,16 @@ const { frontmatter } = Astro.props;
 			}
 			main :global(h2) {
 				font-size: 1.2rem;
-				font-weight: 700;
+				font-weight: 600;
 				margin-top: 4rem;
 				margin-bottom: 1.5rem;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
+				letter-spacing: 0.02em;
 			}
 			main :global(img) {
 				max-width: 100%;
 				height: auto;
 				display: block;
 				margin: 3rem 0;
-				/* 画像の枠線もノイズになりうるので除去、あるいは極薄に */
-				border: 1px solid #f0f0f0; 
 			}
 			main :global(ul) {
 				padding-left: 1rem;
@@ -98,7 +100,6 @@ const { frontmatter } = Astro.props;
 			main :global(blockquote) {
 				margin: 3rem 0;
 				padding-left: 1.5rem;
-				/* 引用の線だけは「機能」として残すが、極めて細く */
 				border-left: 1px solid #111;
 				font-style: italic;
 				color: #555;

@@ -11,12 +11,19 @@ const sortedPosts = posts.sort((a, b) =>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<title>Tomohiro Ogawa</title>
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+
 		<style>
 			/* Reset & Base */
 			* { box-sizing: border-box; }
 			
 			body {
-				font-family: "Helvetica Neue", Arial, sans-serif;
+				font-family: "Inter", "Noto Sans JP", sans-serif;
+				font-weight: 400;
+				font-feature-settings: "palt";
 				background-color: #fff;
 				color: #111;
 				margin: 0;
@@ -25,7 +32,6 @@ const sortedPosts = posts.sort((a, b) =>
 				min-height: 100vh;
 			}
 
-			/* Container: 720pxの空間定義のみ */
 			.grid-container {
 				width: 100%;
 				max-width: 720px;
@@ -36,13 +42,12 @@ const sortedPosts = posts.sort((a, b) =>
 
 			header {
 				margin-bottom: 6rem;
-				/* 線も装飾も一切なし */
 			}
 
 			h1 {
 				font-size: 1.2rem;
-				font-weight: 700;
-				letter-spacing: 0.05em;
+				font-weight: 600; /* Interの600は美しい */
+				letter-spacing: 0.02em;
 				margin: 0 0 0.5rem 0;
 				text-transform: uppercase;
 				line-height: 1;
@@ -51,9 +56,9 @@ const sortedPosts = posts.sort((a, b) =>
 				font-size: 0.75rem;
 				color: #666;
 				display: block;
+				font-weight: 300;
 			}
 
-			/* List: 装飾なしの純粋なリスト */
 			ul {
 				list-style: none;
 				padding: 0;
@@ -61,11 +66,12 @@ const sortedPosts = posts.sort((a, b) =>
 			}
 
 			.entry {
-				margin-bottom: 4rem; /* 余白のみで区分け */
+				margin-bottom: 4rem;
 			}
 
 			.meta {
-				font-family: monospace;
+				font-family: "Inter", sans-serif;
+				font-feature-settings: "tnum"; /* 等幅数字 */
 				font-size: 0.75rem;
 				color: #999;
 				margin-bottom: 0.8rem;
@@ -78,7 +84,7 @@ const sortedPosts = posts.sort((a, b) =>
 				text-decoration: none;
 				color: #111;
 				font-size: 1.4rem;
-				font-weight: 400;
+				font-weight: 400; /* Regularで潔く */
 				line-height: 1.3;
 				transition: opacity 0.2s;
 			}
