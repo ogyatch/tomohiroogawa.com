@@ -8,7 +8,7 @@ const { frontmatter } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<title>{frontmatter.title} | Tomohiro Ogawa</title>
 		<style>
-			/* Base Structure */
+			/* Swiss Style Reset */
 			* { box-sizing: border-box; }
 			
 			body {
@@ -21,47 +21,55 @@ const { frontmatter } = Astro.props;
 				min-height: 100vh;
 			}
 
-			/* The Grid Container: index.astroと同一寸法 */
+			/* The Structural Container (Indexと完全一致) */
 			.grid-container {
 				width: 100%;
 				max-width: 720px;
-				padding: 6rem 2rem;
+				padding: 4rem 2rem; 
+				display: flex;
+			}
+
+			/* THE AXIS SPINE (Indexと完全一致) */
+			.axis-spine {
+				border-left: 1px solid #111; 
+				padding-left: 3rem; 
+				min-height: 100%;
+				width: 100%;
 				display: flex;
 				flex-direction: column;
 			}
 
-			/* The Axis Wrapper */
-			.axis-wrapper {
-				border-left: 1px solid #e5e5e5;
-				padding-left: 3rem; /* index.astroと同一余白 */
-				min-height: 50vh;
-			}
-
-			/* Navigation */
+			/* Navigation (座標への帰還) */
 			.nav {
 				margin-bottom: 2rem;
+				font-family: monospace;
+				font-size: 0.75rem;
 			}
 			.back-link {
 				text-decoration: none;
 				color: #999;
-				font-size: 0.75rem;
-				font-family: monospace;
-				display: inline-flex;
-				align-items: center;
-			}
-			.back-link::before {
-				content: '';
 				display: inline-block;
-				width: 8px;
-				height: 1px;
-				background-color: #999;
-				margin-right: 8px;
+				transition: color 0.2s;
+			}
+			.back-link:hover { color: #111; }
+
+			/* Header Structure */
+			header {
+				margin-bottom: 4rem;
+				position: relative;
 			}
 
-			/* Header */
-			header {
-				margin-bottom: 3rem;
+			/* THE TICK: タイトルを軸に固定する楔 */
+			header::before {
+				content: '';
+				position: absolute;
+				left: -3rem; /* padding-left分戻り、縦線と接触させる */
+				top: 0.6em; /* タイトルの中心 */
+				width: 12px; /* Indexの目盛りと同じ長さ */
+				height: 1px;
+				background-color: #111;
 			}
+
 			h1 {
 				font-size: 1.8rem;
 				font-weight: 700;
@@ -73,19 +81,22 @@ const { frontmatter } = Astro.props;
 				font-family: monospace;
 				color: #666;
 				font-size: 0.8rem;
+				display: block;
 			}
 
-			/* Content Typography (Max Bill Style) */
+			/* Content Typography */
 			main {
-				font-size: 0.95rem;
+				font-size: 1rem;
 				line-height: 1.7;
+				/* コンテンツが尽きても線が伸びるように */
+				flex-grow: 1; 
 			}
 			main :global(p) {
 				margin-bottom: 1.5rem;
 				text-align: justify;
 			}
 			main :global(h2) {
-				font-size: 1.1rem;
+				font-size: 1.2rem;
 				font-weight: 700;
 				margin-top: 3rem;
 				margin-bottom: 1rem;
@@ -109,16 +120,16 @@ const { frontmatter } = Astro.props;
 			main :global(blockquote) {
 				margin: 2rem 0;
 				padding-left: 1rem;
-				border-left: 2px solid #111; /* Strong Contrast */
+				border-left: 2px solid #111;
 				font-style: italic;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="grid-container">
-			<div class="axis-wrapper">
+			<div class="axis-spine">
 				<nav class="nav">
-					<a href="/" class="back-link">INDEX</a>
+					<a href="/" class="back-link">&lt; INDEX</a>
 				</nav>
 
 				<header>
