@@ -1,141 +1,93 @@
----
-// Logic: 記事データの収集と整形
-const posts = await Astro.glob('./journal/*.md');
-
-// 日付の新しい順にソート
-const sortedPosts = posts.sort((a, b) => 
-  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
-);
----
-
-<html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Tomohiro Ogawa</title>
-		<style>
-			/* Aesthetics: Tei-ku Style */
+/* Aesthetics: Centered Axis Style */
 			body {
 				font-family: "Helvetica Neue", Arial, sans-serif;
-				max-width: 800px; /* 少し幅を広げる */
-				margin: 0 auto;
+				/* フレックスボックスで全体を強制的に中央揃えにする */
+				display: flex;
+				flex-direction: column;
+				align-items: center; 
+				min-height: 100vh;
+				margin: 0;
 				padding: 6rem 2rem;
 				color: #333;
-				background-color: #f9f9f9; /* 紙のような白 */
+				background-color: #f9f9f9;
 			}
+
 			header {
-				margin-bottom: 6rem;
-				text-align: left; /* 左揃えにして軸を意識させる */
-				padding-left: 2rem; /* タイムラインの軸と合わせる */
+				margin-bottom: 5rem;
+				text-align: center; /* 名前は中央に戻す */
+				width: 100%;
 			}
 			h1 {
-				font-weight: 400;
-				letter-spacing: 0.15em;
-				margin: 0 0 0.5rem 0;
-				font-size: 1.4rem;
+				font-weight: 300; /* より細く、洗練させる */
+				letter-spacing: 0.2em; /* 字間を広げて気品を出す */
+				margin: 0 0 0.8rem 0;
+				font-size: 1.5rem;
 			}
 			.subtitle {
-				font-size: 0.75rem;
-				color: #999;
-				letter-spacing: 0.2em;
+				font-size: 0.7rem;
+				color: #aaa;
+				letter-spacing: 0.3em;
 				text-transform: uppercase;
 			}
 
 			/* Timeline Architecture */
-			.timeline {
+			main {
+				/* コンテンツの幅を制限し、中央の柱（Pillar）にする */
+				max-width: 600px;
+				width: 100%;
+				/* 時間軸の線 */
+				border-left: 1px solid #e0e0e0; 
+				padding-left: 2.5rem; /* 線と文字の距離 */
+				padding-bottom: 4rem;
 				position: relative;
-				padding-left: 2rem; /* 左側のスペース確保 */
-				border-left: 1px solid #e0e0e0; /* 時間軸の線 */
 			}
+
+			/* 以下、記事リストのデザインは維持 */
 			.entry {
 				position: relative;
-				margin-bottom: 4rem; /* 記事ごとの余白をたっぷりと */
-				padding-left: 1.5rem;
+				margin-bottom: 5rem; /* 余白を増やして呼吸させる */
 			}
-			/* 軸上のポイント（現在位置） */
 			.entry::before {
 				content: '';
 				position: absolute;
-				left: -2.35rem; /* 線の位置に合わせる */
-				top: 0.4rem;
-				width: 6px;
-				height: 6px;
-				background-color: #333; /* 点の色 */
+				left: -2.85rem; /* 線の位置にドットを合わせる調整 */
+				top: 0.5rem;
+				width: 5px;
+				height: 5px;
+				background-color: #333;
 				border-radius: 50%;
 				transition: transform 0.2s;
 			}
 			.entry:hover::before {
-				transform: scale(1.5); /* ホバー時に点が少し大きくなる */
+				transform: scale(1.8);
 			}
 
-			/* メタデータ（日付・番号） */
 			.meta {
 				display: flex;
 				gap: 1rem;
 				font-family: monospace;
-				font-size: 0.75rem;
-				color: #999;
-				margin-bottom: 0.5rem;
+				font-size: 0.7rem;
+				color: #aaa;
+				margin-bottom: 0.4rem;
 				letter-spacing: 0.05em;
 			}
-			.number {
-				color: #ccc; /* 番号は薄く */
-			}
+			.number { color: #ddd; }
 
-			/* タイトルリンク */
 			.title-link {
 				display: block;
 				text-decoration: none;
 				color: #333;
-				font-size: 1.2rem;
-				font-weight: 500;
-				line-height: 1.4;
+				font-size: 1.1rem;
+				font-weight: 400;
+				line-height: 1.5;
 				transition: opacity 0.2s;
 			}
-			.title-link:hover {
-				opacity: 0.6;
-			}
+			.title-link:hover { opacity: 0.5; }
+			
 			.excerpt {
-				margin-top: 0.5rem;
-				font-size: 0.9rem;
-				color: #666;
-				line-height: 1.6;
+				margin-top: 0.8rem;
+				font-size: 0.85rem;
+				color: #777;
+				line-height: 1.7;
+				font-weight: 300;
 			}
-		</style>
-	</head>
-	<body>
-		<header>
-			<h1>Tomohiro Ogawa</h1>
-			<span class="subtitle">Poet of Technology</span>
-		</header>
-
-		<main class="timeline">
-			{sortedPosts.map((post, index) => {
-				// 連番を計算 (総数 - インデックス) で新しい順に番号を振る
-				// ※古い順なら index + 1
-				const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
-				
-				return (
-					<article class="entry">
-						<div class="meta">
-							<span class="number">#{entryNumber}</span>
-							<time datetime={post.frontmatter.pubDate}>
-								{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US', {
-									year: 'numeric', month: '2-digit', day: '2-digit'
-								}).replace(/\//g, '.')}
-							</time>
-						</div>
-						<a href={post.url} class="title-link">
-							{post.frontmatter.title}
-						</a>
-						{/* descriptionがあれば表示 */}
-						{post.frontmatter.description && (
-							<p class="excerpt">{post.frontmatter.description}</p>
-						)}
-					</article>
-				)
-			})}
-		</main>
-	</body>
-</html>
