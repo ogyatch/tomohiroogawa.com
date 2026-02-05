@@ -21,7 +21,6 @@ const sortedPosts = posts.sort((a, b) =>
 			* { box-sizing: border-box; }
 			
 			body {
-				/* 本文：人間味のある機械的なゴシック */
 				font-family: "IBM Plex Sans JP", sans-serif;
 				font-weight: 400;
 				font-feature-settings: "palt";
@@ -45,20 +44,14 @@ const sortedPosts = posts.sort((a, b) =>
 				margin-bottom: 6rem;
 			}
 
+			/* Site Title (Global Identity) */
 			h1 {
 				font-size: 1.2rem;
 				font-weight: 600;
 				letter-spacing: 0.05em;
-				margin: 0 0 0.5rem 0;
+				margin: 0;
 				text-transform: uppercase;
 				line-height: 1;
-			}
-			.subtitle {
-				font-family: "IBM Plex Mono", monospace; /* 技術者の署名 */
-				font-size: 0.75rem;
-				color: #666;
-				display: block;
-				letter-spacing: -0.02em;
 			}
 
 			ul {
@@ -72,7 +65,6 @@ const sortedPosts = posts.sort((a, b) =>
 			}
 
 			.meta {
-				/* データ領域：完全な等幅フォント */
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #888;
@@ -97,7 +89,6 @@ const sortedPosts = posts.sort((a, b) =>
 		<div class="grid-container">
 			<header>
 				<h1>Tomohiro Ogawa</h1>
-				<span class="subtitle">Poet of Technology</span>
 			</header>
 
 			<main>

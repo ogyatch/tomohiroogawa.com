@@ -1,15 +1,12 @@
 ---
 const { frontmatter, url } = Astro.props;
 
-// Logic: 全記事を取得して、現在の記事が「何番目か」を計算する
+// Logic: ナンバリング計算
 const posts = await Astro.glob('../pages/journal/*.md');
 const sortedPosts = posts.sort((a, b) => 
   new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
 );
-
-// 現在の記事のインデックスを探す
 const currentIndex = sortedPosts.findIndex((post) => post.url === url);
-// 記事総数 - インデックス = 連番（古い順なら index + 1）
 const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 ---
 
@@ -47,23 +44,37 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				flex-direction: column;
 			}
 
-			.nav {
-				margin-bottom: 4rem;
-				font-size: 0.75rem;
-			}
-			.back-link {
+			/* Global Site Identity (Top Pageのh1と同じスタイル) */
+			.site-identity {
+				display: block;
+				margin-bottom: 6rem; /* Top PageのHeader余白と合わせる */
+				font-size: 1.2rem;
+				font-weight: 600;
+				letter-spacing: 0.05em;
+				text-transform: uppercase;
+				line-height: 1;
 				text-decoration: none;
-				color: #999;
-				transition: color 0.2s;
-				font-family: "IBM Plex Mono", monospace;
+				color: #111;
+				transition: opacity 0.2s;
 			}
-			.back-link:hover { color: #111; }
+			.site-identity:hover {
+				opacity: 0.6;
+			}
 
 			header {
 				margin-bottom: 5rem;
 			}
 
-			/* Meta Data: Top Pageと完全統一 */
+			/* Article Title */
+			h1 {
+				font-size: 2rem;
+				font-weight: 600;
+				margin: 0;
+				line-height: 1.2;
+				letter-spacing: 0.02em;
+			}
+
+			/* Meta Data */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
@@ -71,14 +82,6 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				margin-bottom: 0.6rem;
 				display: flex;
 				gap: 1.2rem;
-			}
-
-			h1 {
-				font-size: 2rem;
-				font-weight: 600;
-				margin: 0; /* 上下の余白はMetaとMainで制御 */
-				line-height: 1.2;
-				letter-spacing: 0.02em;
 			}
 
 			/* Content */
@@ -118,7 +121,6 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				font-style: italic;
 				color: #444;
 			}
-			
 			main :global(pre) {
 				font-family: "IBM Plex Mono", monospace;
 				background: #f4f4f4;
@@ -131,9 +133,7 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 	</head>
 	<body>
 		<div class="grid-container">
-			<nav class="nav">
-				<a href="/" class="back-link">&lt; INDEX</a>
-			</nav>
+			<a href="/" class="site-identity">Tomohiro Ogawa</a>
 
 			<header>
 				<div class="meta">
