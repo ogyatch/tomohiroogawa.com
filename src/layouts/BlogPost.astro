@@ -1,4 +1,6 @@
 ---
+import Header from '../components/Header.astro';
+
 const { frontmatter, url } = Astro.props;
 
 // Logic: ナンバリング計算
@@ -21,13 +23,8 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
 
 		<style>
-			/* Reset & Base */
 			* { box-sizing: border-box; }
-
-			/* スクロールバーの軸ズレ防止 */
-			html {
-				scrollbar-gutter: stable;
-			}
+			html { scrollbar-gutter: stable; }
 			
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
@@ -49,34 +46,19 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				flex-direction: column;
 			}
 
-			.site-identity {
-				display: block;
-				margin-bottom: 6rem;
-				font-size: 1.2rem;
-				font-weight: 600;
-				letter-spacing: 0.05em;
-				text-transform: uppercase;
-				line-height: 1;
-				text-decoration: none;
-				color: #111;
-				transition: opacity 0.2s;
-			}
-			.site-identity:hover {
-				opacity: 0.6;
-			}
+            /* .site-identity 等は Header.astro に移動済み */
 
 			header {
 				margin-bottom: 5rem;
 			}
 
-			/* Meta Data: トップページと完全一致させる */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #888;
 				margin-bottom: 0.6rem;
 				display: flex;
-				gap: 1rem; /* 1.2rem -> 1rem: 修正箇所 */
+				gap: 1rem;
 			}
 
 			h1 {
@@ -135,7 +117,7 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 	</head>
 	<body>
 		<div class="grid-container">
-			<a href="/" class="site-identity">Tomohiro Ogawa</a>
+            <Header activeNav="journal" />
 
 			<header>
 				<div class="meta">

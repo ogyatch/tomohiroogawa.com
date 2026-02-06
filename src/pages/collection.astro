@@ -1,0 +1,55 @@
+---
+import Header from '../components/Header.astro';
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Collection | Tomohiro Ogawa</title>
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+
+		<style>
+			* { box-sizing: border-box; }
+			html { scrollbar-gutter: stable; }
+			body {
+				font-family: "IBM Plex Sans JP", sans-serif;
+				background-color: #fff;
+				color: #111;
+				margin: 0;
+				display: flex;
+				justify-content: center;
+				min-height: 100vh;
+			}
+			.grid-container {
+				width: 100%;
+				max-width: 720px;
+				padding: 6rem 2rem;
+				display: flex;
+				flex-direction: column;
+			}
+            /* 仮のメッセージ */
+            .placeholder {
+                font-family: "IBM Plex Mono", monospace;
+                color: #999;
+                font-size: 0.8rem;
+                margin-top: 4rem;
+                text-align: center;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="grid-container">
+            <Header activeNav="collection" />
+            
+            <div class="placeholder">
+                // ARCHIVE OF AESTHETICS<br>
+                // UNDER CONSTRUCTION
+            </div>
+		</div>
+	</body>
+</html>

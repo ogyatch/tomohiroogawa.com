@@ -1,4 +1,6 @@
 ---
+import Header from '../components/Header.astro'; // 部品を読み込む
+
 const posts = await Astro.glob('./journal/*.md');
 const sortedPosts = posts.sort((a, b) => 
   new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
@@ -19,11 +21,7 @@ const sortedPosts = posts.sort((a, b) =>
 		<style>
 			/* Reset & Base */
 			* { box-sizing: border-box; }
-
-			/* スクロールバーの軸ズレ防止 */
-			html {
-				scrollbar-gutter: stable;
-			}
+			html { scrollbar-gutter: stable; }
 			
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
@@ -45,18 +43,7 @@ const sortedPosts = posts.sort((a, b) =>
 				flex-direction: column;
 			}
 
-			header {
-				margin-bottom: 6rem;
-			}
-
-			h1 {
-				font-size: 1.2rem;
-				font-weight: 600;
-				letter-spacing: 0.05em;
-				margin: 0;
-				text-transform: uppercase;
-				line-height: 1;
-			}
+            /* headerのスタイルは Header.astro に移動したのでここでは削除 */
 
 			ul {
 				list-style: none;
@@ -64,16 +51,15 @@ const sortedPosts = posts.sort((a, b) =>
 				margin: 0;
 			}
 
-			/* List Item: 密度を高める */
 			.entry {
-				margin-bottom: 2.5rem; /* 4rem -> 2.5rem: 緊張感のある間隔へ */
+				margin-bottom: 2.5rem;
 			}
 
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #888;
-				margin-bottom: 0.4rem; /* 間隔を微調整 */
+				margin-bottom: 0.4rem;
 				display: flex;
 				gap: 1rem;
 			}
@@ -82,8 +68,8 @@ const sortedPosts = posts.sort((a, b) =>
 				display: block;
 				text-decoration: none;
 				color: #111;
-				font-size: 1.1rem; /* 1.4rem -> 1.1rem: 叫ばないサイズへ */
-				font-weight: 500;  /* 少しだけ太さを足して存在感を維持 */
+				font-size: 1.1rem;
+				font-weight: 500;
 				line-height: 1.4;
 				letter-spacing: 0.02em;
 				transition: opacity 0.2s;
@@ -93,9 +79,7 @@ const sortedPosts = posts.sort((a, b) =>
 	</head>
 	<body>
 		<div class="grid-container">
-			<header>
-				<h1>Tomohiro Ogawa</h1>
-			</header>
+            <Header activeNav="journal" />
 
 			<main>
 				<ul>
