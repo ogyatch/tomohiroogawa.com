@@ -29,120 +29,117 @@ const { item, prevItem, nextItem } = Astro.props;
 
 		<style>
 			* { box-sizing: border-box; }
-			
-			/* スクロールバーのガタつきを防止 */
-			html {
-				scrollbar-gutter: stable;
-			}
+			html { scrollbar-gutter: stable; }
 
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
 				background-color: #fff;
 				color: #111;
 				margin: 0;
-				min-height: 100vh;
+				height: 100vh; /* 画面いっぱいに固定 */
 				display: flex;
 				flex-direction: column;
+                overflow: hidden; /* スクロールさせない（画像が大きすぎる場合のみ縮小） */
 			}
 
-			/* 画面全体を一つのキャンバスとする */
+			/* 画面全体 */
 			.inspection-container {
 				flex: 1;
 				display: flex;
 				flex-direction: column;
-				padding: 4rem 3rem; /* 広めの余白 */
-				max-width: 1400px;
-				margin: 0 auto;
+				padding: 3rem;
 				width: 100%;
-                justify-content: center; /* 上下中央配置 */
+				height: 100%;
 			}
 
-			/* 1. The Stage (Image Area) */
+			/* 1. The Stage (Image Area) - 常に中心 */
 			.stage {
 				flex: 1;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				margin-bottom: 3rem; /* パネルとの距離 */
+				min-height: 0; /* Flexbox内での縮小を許可 */
+				margin-bottom: 2rem;
 			}
 
 			.artwork {
 				max-width: 100%;
-				max-height: 75vh; /* 画面内に収まる高さ */
+				max-height: 100%;
 				width: auto;
 				height: auto;
-				display: block;
 				object-fit: contain;
-                /* クリックで戻る（UX向上のため） */
                 cursor: zoom-out;
 			}
 
-			/* 2. The Instrument Panel (Footer Area) */
+			/* 2. The Instrument Panel (Footer) - グリッドレイアウト */
 			.instrument-panel {
-				display: flex;
-				justify-content: space-between;
-				align-items: flex-end; /* 下揃え */
+                /* 高さ固定で下部に鎮座させる */
+                flex-shrink: 0;
+				display: grid;
+                /* 左(可変) | 右(固定:240px) */
+				grid-template-columns: 1fr 240px; 
+				gap: 2rem;
 				width: 100%;
-				font-size: 0.9rem;
-                border-top: none; /* 線は削除 */
+                /* 上辺で揃える */
+                align-items: start; 
 			}
 
-			/* Left: Context (Emotion) */
-			.panel-left {
+			/* Left Block: Title & Context */
+			.panel-info {
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
-				max-width: 50%;
 			}
 
 			h1 {
-				font-size: 1.2rem;
+                font-family: "IBM Plex Sans JP", sans-serif;
+				font-size: 1rem;
 				font-weight: 500;
 				margin: 0;
 				letter-spacing: 0.03em;
-				line-height: 1.2;
+                line-height: 1.4;
 			}
 
 			.note {
-				font-size: 0.9rem;
-				color: #444;
+                font-family: "IBM Plex Mono", monospace; /* モノスペースに変更 */
+				font-size: 0.75rem;
+				color: #666;
 				line-height: 1.6;
 				margin: 0;
+                max-width: 600px;
 			}
 
-			/* Right: System (Logic & Control) */
-			.panel-right {
+			/* Right Block: System & Controls */
+			.panel-system {
 				display: flex;
 				flex-direction: column;
-				align-items: flex-end;
-				gap: 1.5rem;
+				gap: 1rem;
 				text-align: right;
 			}
 
 			.meta-data {
 				font-family: "IBM Plex Mono", monospace;
-				font-size: 0.75rem;
-				color: #888;
+				font-size: 0.7rem;
+				color: #999;
 				display: flex;
 				flex-direction: column;
 				gap: 0.2rem;
 			}
 
-			/* Navigation Controls */
+			/* Controls: 記号化してミニマルに */
 			.controls {
 				font-family: "IBM Plex Mono", monospace;
-				font-size: 0.9rem;
+				font-size: 0.8rem;
 				display: flex;
-				gap: 2rem; /* 操作項目の間隔 */
+				justify-content: flex-end;
+				gap: 1.5rem;
+                margin-top: 0.5rem;
 			}
 
 			.control-link {
 				text-decoration: none;
 				color: #111;
 				transition: opacity 0.2s;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
 			}
 			.control-link:hover { opacity: 0.5; }
 			
@@ -151,12 +148,20 @@ const { item, prevItem, nextItem } = Astro.props;
 				pointer-events: none;
 			}
 
-            /* Mobile Response */
+            /* Mobile: 縦積みに変更 */
             @media (max-width: 768px) {
-                .inspection-container { padding: 2rem 1.5rem; }
-                .instrument-panel { flex-direction: column; gap: 2rem; align-items: flex-start; }
-                .panel-right { align-items: flex-start; text-align: left; width: 100%; flex-direction: row-reverse; justify-content: space-between;}
-                .artwork { max-height: 60vh; }
+                .inspection-container { padding: 1.5rem; }
+                .instrument-panel { 
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                }
+                .panel-system { 
+                    text-align: left; 
+                    flex-direction: row; 
+                    justify-content: space-between;
+                    align-items: flex-end;
+                }
+                .meta-data { text-align: left; }
             }
 		</style>
 	</head>
@@ -171,37 +176,32 @@ const { item, prevItem, nextItem } = Astro.props;
 
 			<footer class="instrument-panel">
 				
-				<div class="panel-left">
+				<div class="panel-info">
 					<h1>{item.title}</h1>
 					<p class="note">{item.note}</p>
 				</div>
 
-				<div class="panel-right">
+				<div class="panel-system">
 					<div class="meta-data">
-						<span>DATE: {item.date}</span>
-						<span>SRC : {item.source}</span>
-						<span>ID  : #{item.id}</span>
+						<span>{item.date}</span>
+						<span>{item.source}</span>
 					</div>
 
 					<nav class="controls">
 						{prevItem ? (
 							<a href={`/collection/${prevItem.id}`} class="control-link">
-                                <span>&larr; PREV</span>
+                                &larr; {prevItem.id}
                             </a>
 						) : (
-							<span class="control-link disabled">&larr; PREV</span>
+							<span class="control-link disabled">&larr; ---</span>
 						)}
-
-						<a href="/collection" class="control-link">
-                            [INDEX]
-                        </a>
 
 						{nextItem ? (
 							<a href={`/collection/${nextItem.id}`} class="control-link">
-                                <span>NEXT &rarr;</span>
+                                {nextItem.id} &rarr;
                             </a>
 						) : (
-							<span class="control-link disabled">NEXT &rarr;</span>
+							<span class="control-link disabled">--- &rarr;</span>
 						)}
 					</nav>
 				</div>
