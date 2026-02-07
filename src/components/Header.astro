@@ -7,26 +7,27 @@ const { activeNav = "journal" } = Astro.props;
     /* STICKY POSITIONING */
     position: sticky;
     top: 0;
-    z-index: 100; /* コンテンツより常に上に */
+    z-index: 100;
     
-    /* THE TRICK: 親のパディング(6rem)を相殺し、画面最上部まで領域を広げる */
+    /* THE TRICK: 親のパディング(6rem)を相殺 */
     margin-top: -6rem;
     margin-left: -2rem;
     margin-right: -2rem;
-    padding-top: 6rem; /* 失った余白を内部で確保 */
+    padding-top: 6rem;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-bottom: 1.5rem;
     
-    margin-bottom: 4rem; /* 下のコンテンツとの距離 */
+    margin-bottom: 4rem;
 
-    /* FROSTED GLASS EFFECT (技術の詩人らしい質感) */
-    background-color: rgba(255, 255, 255, 0.85); /* わずかに透過 */
-    backdrop-filter: blur(12px); /* 背面の文字をぼかす */
-    -webkit-backdrop-filter: blur(12px); /* Safari対応 */
+    /* FROSTED GLASS EFFECT */
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     
-    /* 下線を引いて「結界」を作るか？今回は影も線もなしで、質感だけで区切る */
-    border-bottom: 1px solid rgba(0,0,0,0.03); /* 極めて薄い境界線 */
+    /* REMOVED: 境界線を完全削除 */
+    border-bottom: none;
+    box-shadow: none; /* 念のため影も無効化 */
   }
 
   /* サイトタイトル */
