@@ -84,7 +84,7 @@ const projects = [
 			}
 
 			.project-item {
-				border-top: 1px solid #eaeaea; /* 極薄の区切り線 */
+				border-top: 1px solid #eaeaea;
 				padding: 4rem 0;
 				display: flex;
 				flex-direction: column;
@@ -124,16 +124,14 @@ const projects = [
 				margin-bottom: 2.5rem; 
 			}
 
-			/* 修正：枠線の復活 */
+			/* 修正：枠線を削除し、文字の強さだけで見せる */
 			.status-tag {
 				display: inline-block;
-				border: 1px solid #ccc; /* 明確な枠線 */
-				padding: 0.15rem 0.5rem; /* 少し余裕を持たせる */
-				font-size: 0.7rem;
+				border: none; /* 線を消す */
+				padding: 0;   /* 余計なパディングも消す */
+				font-weight: 500; /* 太さで区別 */
 				margin-right: 0.8rem;
-				color: #333;
-				background-color: transparent;
-				/* 角を落とさず、鋭利なままにする */
+				color: #111; /* 文字色を濃くして存在感を出す */
 			}
 
 			.project-desc {
