@@ -1,7 +1,6 @@
 ---
 import Header from '../components/Header.astro';
 
-// Project Data
 const projects = [
   {
     title: "Tomohiro Ogawa Portfolio",
@@ -58,7 +57,6 @@ const projects = [
 		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
 
 		<style>
-			/* Reset & Base */
 			* { box-sizing: border-box; }
 			html { scrollbar-gutter: stable; }
 			body {
@@ -80,36 +78,29 @@ const projects = [
 				flex-direction: column;
 			}
 
-			/* Project List Structure */
 			.project-list {
 				display: flex;
 				flex-direction: column;
 			}
 
 			.project-item {
-				/* 極めて薄い線に変更 */
-				border-top: 1px solid #eaeaea;
-				
-				/* 上下の余白を広げ、呼吸させる */
+				border-top: 1px solid #eaeaea; /* 極薄の区切り線 */
 				padding: 4rem 0;
-				
 				display: flex;
 				flex-direction: column;
 			}
 			
-			/* 最後の要素の線は不要、あるいは空間で終わらせる */
 			.project-item:last-child {
 				border-bottom: 1px solid #eaeaea;
 			}
 
-			/* 1. Header Block (Title + Meta) */
 			.project-header {
 				display: flex;
 				justify-content: space-between;
 				align-items: baseline;
 				flex-wrap: wrap;
 				gap: 1rem;
-				margin-bottom: 0.8rem; /* タイトル下の余白は詰める */
+				margin-bottom: 0.8rem;
 			}
 
 			.project-title {
@@ -123,28 +114,28 @@ const projects = [
 			.project-meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #999; /* より薄く、ノイズにならないように */
+				color: #999;
 			}
 
-			/* 2. Specs Block (Stack + Status) */
 			.tech-stack {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #666;
-				
-				/* 本文との間に明確な壁を作る */
 				margin-bottom: 2.5rem; 
 			}
 
+			/* 修正：枠線の復活 */
 			.status-tag {
 				display: inline-block;
-				/* 枠線を廃止し、文字だけで表現 */
-				font-weight: 500;
+				border: 1px solid #ccc; /* 明確な枠線 */
+				padding: 0.15rem 0.5rem; /* 少し余裕を持たせる */
+				font-size: 0.7rem;
 				margin-right: 0.8rem;
-				color: #111;
+				color: #333;
+				background-color: transparent;
+				/* 角を落とさず、鋭利なままにする */
 			}
 
-			/* 3. Body Block (Description) */
 			.project-desc {
 				font-size: 1rem;
 				line-height: 1.8;
@@ -152,26 +143,22 @@ const projects = [
 				max-width: 95%;
 				text-align: justify;
 				margin: 0;
-				
-				/* リンクとの間に明確な壁を作る */
 				margin-bottom: 2.5rem;
 			}
 
-			/* 4. Footer Block (Link) */
 			.project-link {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.8rem;
 				color: #111;
 				text-decoration: none;
 				align-self: flex-start;
-				border-bottom: 1px solid #111; /* リンクは明確に線を引く */
+				border-bottom: 1px solid #111;
 				padding-bottom: 2px;
 				transition: opacity 0.2s;
 			}
 			.project-link:hover {
 				opacity: 0.5;
 			}
-
 		</style>
 	</head>
 	<body>
