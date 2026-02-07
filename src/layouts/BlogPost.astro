@@ -46,16 +46,15 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				flex-direction: column;
 			}
 
-            /* .site-identity 等は Header.astro に移動済み */
-
 			header {
 				margin-bottom: 5rem;
 			}
 
+			/* UNIFIED META STYLE */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #888;
+				color: #888; /* 統一カラー */
 				margin-bottom: 0.6rem;
 				display: flex;
 				gap: 1rem;
@@ -117,7 +116,7 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 	</head>
 	<body>
 		<div class="grid-container">
-            <Header activeNav="journal" />
+			<Header activeNav="journal" />
 
 			<header>
 				<div class="meta">

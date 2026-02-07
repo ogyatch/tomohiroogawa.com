@@ -1,5 +1,5 @@
 ---
-import Header from '../components/Header.astro'; // 部品を読み込む
+import Header from '../components/Header.astro';
 
 const posts = await Astro.glob('./journal/*.md');
 const sortedPosts = posts.sort((a, b) => 
@@ -43,8 +43,6 @@ const sortedPosts = posts.sort((a, b) =>
 				flex-direction: column;
 			}
 
-            /* headerのスタイルは Header.astro に移動したのでここでは削除 */
-
 			ul {
 				list-style: none;
 				padding: 0;
@@ -55,10 +53,11 @@ const sortedPosts = posts.sort((a, b) =>
 				margin-bottom: 2.5rem;
 			}
 
+			/* UNIFIED META STYLE */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #888;
+				color: #888; /* 統一カラー */
 				margin-bottom: 0.4rem;
 				display: flex;
 				gap: 1rem;
@@ -79,7 +78,7 @@ const sortedPosts = posts.sort((a, b) =>
 	</head>
 	<body>
 		<div class="grid-container">
-            <Header activeNav="journal" />
+			<Header activeNav="journal" />
 
 			<main>
 				<ul>

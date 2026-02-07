@@ -91,14 +91,10 @@ const projects = [
 				flex-direction: column;
 			}
 			
-			/* 修正1：最初のアイテムだけ、上の線を消し、余白も詰める */
 			.project-item:first-child {
 				border-top: none;
 				padding-top: 0;
 			}
-			
-			/* 修正2：最後のアイテムの下の線（border-bottom）の記述を削除 */
-			/* これでリストは上下に開放される */
 
 			.project-header {
 				display: flex;
@@ -117,16 +113,18 @@ const projects = [
 				margin: 0;
 			}
 
+			/* UNIFIED META STYLE */
 			.project-meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #999;
+				color: #888; /* 統一カラー */
 			}
 
+			/* UNIFIED META STYLE */
 			.tech-stack {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #666;
+				color: #888; /* 統一カラー */
 				margin-bottom: 2.5rem; 
 			}
 
@@ -136,7 +134,7 @@ const projects = [
 				padding: 0;
 				font-weight: 500;
 				margin-right: 0.8rem;
-				color: #111;
+				color: #888; /* 統一カラー（以前は#111） */
 			}
 
 			.project-desc {
