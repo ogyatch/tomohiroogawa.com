@@ -29,6 +29,8 @@ const { item, prevItem, nextItem } = Astro.props;
 
 		<style>
 			* { box-sizing: border-box; }
+			
+			/* スクロールバーのガタつき防止 */
 			html { scrollbar-gutter: stable; }
 
 			body {
@@ -36,52 +38,47 @@ const { item, prevItem, nextItem } = Astro.props;
 				background-color: #fff;
 				color: #111;
 				margin: 0;
-				height: 100vh; /* 画面いっぱいに固定 */
-				display: flex;
-				flex-direction: column;
-                overflow: hidden; /* スクロールさせない（画像が大きすぎる場合のみ縮小） */
+				height: 100vh; /* ビューポートの高さに固定 */
+				overflow: hidden; /* スクロール禁止（画像は縮小して表示） */
 			}
 
-			/* 画面全体 */
+			/* 画面全体レイアウト (Grid) */
 			.inspection-container {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				padding: 3rem;
+				display: grid;
+				/* Row 1: 画像エリア (残りのスペース) | Row 2: パネル (自動調整) */
+				grid-template-rows: 1fr auto; 
+				height: 100%;
+				padding: 3rem; /* 外枠の余白 */
+				gap: 2rem;     /* 画像とパネルの間隔 */
+			}
+
+			/* 1. The Stage (Image Area) */
+			.stage {
 				width: 100%;
 				height: 100%;
-			}
-
-			/* 1. The Stage (Image Area) - 常に中心 */
-			.stage {
-				flex: 1;
 				display: flex;
-				align-items: center;
-				justify-content: center;
-				min-height: 0; /* Flexbox内での縮小を許可 */
-				margin-bottom: 2rem;
+				align-items: center;  /* 上下中央 */
+				justify-content: center; /* 左右中央 */
+				min-height: 0; /* 重要：Grid内での画像の縮小を許可する */
 			}
 
 			.artwork {
 				max-width: 100%;
-				max-height: 100%;
+				max-height: 100%; /* 親(.stage)の高さに完全に収める */
 				width: auto;
 				height: auto;
-				object-fit: contain;
-                cursor: zoom-out;
+				object-fit: contain; /* アスペクト比を維持 */
+				cursor: zoom-out;
 			}
 
-			/* 2. The Instrument Panel (Footer) - グリッドレイアウト */
+			/* 2. The Instrument Panel (Footer) */
 			.instrument-panel {
-                /* 高さ固定で下部に鎮座させる */
-                flex-shrink: 0;
 				display: grid;
-                /* 左(可変) | 右(固定:240px) */
+				/* Left (Info) | Right (Controls) */
 				grid-template-columns: 1fr 240px; 
 				gap: 2rem;
 				width: 100%;
-                /* 上辺で揃える */
-                align-items: start; 
+				align-items: start; /* 上辺揃え */
 			}
 
 			/* Left Block: Title & Context */
@@ -92,21 +89,21 @@ const { item, prevItem, nextItem } = Astro.props;
 			}
 
 			h1 {
-                font-family: "IBM Plex Sans JP", sans-serif;
+				font-family: "IBM Plex Sans JP", sans-serif;
 				font-size: 1rem;
 				font-weight: 500;
 				margin: 0;
 				letter-spacing: 0.03em;
-                line-height: 1.4;
+				line-height: 1.4;
 			}
 
 			.note {
-                font-family: "IBM Plex Mono", monospace; /* モノスペースに変更 */
+				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #666;
 				line-height: 1.6;
 				margin: 0;
-                max-width: 600px;
+				max-width: 600px;
 			}
 
 			/* Right Block: System & Controls */
@@ -126,14 +123,13 @@ const { item, prevItem, nextItem } = Astro.props;
 				gap: 0.2rem;
 			}
 
-			/* Controls: 記号化してミニマルに */
 			.controls {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.8rem;
 				display: flex;
 				justify-content: flex-end;
 				gap: 1.5rem;
-                margin-top: 0.5rem;
+				margin-top: 0.5rem;
 			}
 
 			.control-link {
@@ -148,30 +144,30 @@ const { item, prevItem, nextItem } = Astro.props;
 				pointer-events: none;
 			}
 
-            /* Mobile: 縦積みに変更 */
-            @media (max-width: 768px) {
-                .inspection-container { padding: 1.5rem; }
-                .instrument-panel { 
-                    grid-template-columns: 1fr;
-                    gap: 1.5rem;
-                }
-                .panel-system { 
-                    text-align: left; 
-                    flex-direction: row; 
-                    justify-content: space-between;
-                    align-items: flex-end;
-                }
-                .meta-data { text-align: left; }
-            }
+			/* Mobile Layout */
+			@media (max-width: 768px) {
+				.inspection-container { padding: 1.5rem; gap: 1.5rem; }
+				.instrument-panel { 
+					grid-template-columns: 1fr;
+					gap: 1.5rem;
+				}
+				.panel-system { 
+					text-align: left; 
+					flex-direction: row; 
+					justify-content: space-between;
+					align-items: flex-end;
+				}
+				.meta-data { text-align: left; }
+			}
 		</style>
 	</head>
 	<body>
 		<div class="inspection-container">
 			
 			<div class="stage">
-                <a href="/collection">
-				    <img src={item.image} alt={item.title} class="artwork" />
-                </a>
+				<a href="/collection" aria-label="Back to collection">
+					<img src={item.image} alt={item.title} class="artwork" />
+				</a>
 			</div>
 
 			<footer class="instrument-panel">
@@ -190,16 +186,16 @@ const { item, prevItem, nextItem } = Astro.props;
 					<nav class="controls">
 						{prevItem ? (
 							<a href={`/collection/${prevItem.id}`} class="control-link">
-                                &larr; {prevItem.id}
-                            </a>
+								&larr; {prevItem.id}
+							</a>
 						) : (
 							<span class="control-link disabled">&larr; ---</span>
 						)}
 
 						{nextItem ? (
 							<a href={`/collection/${nextItem.id}`} class="control-link">
-                                {nextItem.id} &rarr;
-                            </a>
+								{nextItem.id} &rarr;
+							</a>
 						) : (
 							<span class="control-link disabled">--- &rarr;</span>
 						)}
