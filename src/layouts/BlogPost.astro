@@ -21,7 +21,7 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 		
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 		<style>
 			* { box-sizing: border-box; }
@@ -48,8 +48,8 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 			}
 
 			header {
-				/* 本文が始まる前の大きな区切り */
-				margin-bottom: 5rem;
+				/* 本文との区切り。Leadが強くなったので少し詰めても良いが、呼吸は維持 */
+				margin-bottom: 4rem;
 				display: flex;
 				flex-direction: column;
 			}
@@ -58,29 +58,30 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #999;
-				margin-bottom: 0.5rem; /* タイトルとの距離 */
+				margin-bottom: 0.5rem;
 				display: flex;
 				gap: 1rem;
 			}
 
 			h1 {
-				font-size: 2.2rem; /* より大きく、威厳を持たせる */
+				font-size: 2.2rem;
 				font-weight: 600;
 				margin: 0;
 				line-height: 1.2;
 				letter-spacing: 0.02em;
-				/* タイトルとDescriptionの間に明確な「空」を作る */
+				/* タイトルとLeadの間隔 */
 				margin-bottom: 2.5rem;
 			}
 
+			/* 修正: Lead Paragraph Style */
 			.lead {
-				font-family: "IBM Plex Mono", monospace;
-				font-size: 0.95rem;
-				color: #333;
-				line-height: 1.8;
+				font-family: "IBM Plex Sans JP", sans-serif; /* 本文と同じフォント */
+				font-size: 1rem;    /* 本文と同じサイズ */
+				color: #111;        /* 本文と同じ色（完全な黒） */
+				font-weight: 700;   /* 太字で強い主張 */
+				line-height: 1.9;   /* 本文と同じ行間 */
 				margin: 0;
-				border: none;
-				padding: 0;
+				text-align: justify; /* 両端揃え */
 			}
 
 			main {
