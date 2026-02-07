@@ -84,15 +84,21 @@ const projects = [
 			}
 
 			.project-item {
+				/* 基本設定：すべてのアイテムの上に線を引く */
 				border-top: 1px solid #eaeaea;
 				padding: 4rem 0;
 				display: flex;
 				flex-direction: column;
 			}
 			
-			.project-item:last-child {
-				border-bottom: 1px solid #eaeaea;
+			/* 修正1：最初のアイテムだけ、上の線を消し、余白も詰める */
+			.project-item:first-child {
+				border-top: none;
+				padding-top: 0;
 			}
+			
+			/* 修正2：最後のアイテムの下の線（border-bottom）の記述を削除 */
+			/* これでリストは上下に開放される */
 
 			.project-header {
 				display: flex;
@@ -124,14 +130,13 @@ const projects = [
 				margin-bottom: 2.5rem; 
 			}
 
-			/* 修正：枠線を削除し、文字の強さだけで見せる */
 			.status-tag {
 				display: inline-block;
-				border: none; /* 線を消す */
-				padding: 0;   /* 余計なパディングも消す */
-				font-weight: 500; /* 太さで区別 */
+				border: none;
+				padding: 0;
+				font-weight: 500;
 				margin-right: 0.8rem;
-				color: #111; /* 文字色を濃くして存在感を出す */
+				color: #111;
 			}
 
 			.project-desc {
