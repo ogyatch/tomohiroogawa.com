@@ -1,5 +1,19 @@
 ---
 import Header from '../components/Header.astro';
+
+// Dummy Data: 将来はここに本物の画像データを流し込みます
+const dummyImages = [
+  { src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80", alt: "Mountains (Portrait)", aspect: "portrait" },
+  { src: "https://images.unsplash.com/photo-1494438615416-400c46334a30?w=600&q=80", alt: "Architecture (Landscape)", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&q=80", alt: "Leaf Texture (Square-ish)", aspect: "square" },
+  { src: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&q=80", alt: "Abstract Curve (Portrait)", aspect: "portrait" },
+  { src: "https://images.unsplash.com/photo-1497493292307-31c376b6e479?w=600&q=80", alt: "Minimal Room (Landscape)", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=600&q=80", alt: "Tree (Portrait)", aspect: "portrait" },
+  { src: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=600&q=80", alt: "Desk Work (Landscape)", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1461301214746-1e790926d323?w=600&q=80", alt: "Plant Shadow (Portrait)", aspect: "portrait" },
+  { src: "https://images.unsplash.com/photo-1495908333933-1e3b70219567?w=600&q=80", alt: "Marble Texture (Landscape)", aspect: "landscape" },
+  { src: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=600&q=80", alt: "Plant (Portrait)", aspect: "portrait" },
+];
 ---
 
 <html lang="ja">
@@ -14,10 +28,13 @@ import Header from '../components/Header.astro';
 		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
 
 		<style>
+			/* Reset & Base (Global Consistency) */
 			* { box-sizing: border-box; }
 			html { scrollbar-gutter: stable; }
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
+				font-weight: 400;
+				font-feature-settings: "palt";
 				background-color: #fff;
 				color: #111;
 				margin: 0;
@@ -27,29 +44,48 @@ import Header from '../components/Header.astro';
 			}
 			.grid-container {
 				width: 100%;
-				max-width: 720px;
+				max-width: 720px; /* Journalと同じ狭い回廊 */
 				padding: 6rem 2rem;
 				display: flex;
 				flex-direction: column;
 			}
-            /* 仮のメッセージ */
-            .placeholder {
-                font-family: "IBM Plex Mono", monospace;
-                color: #999;
-                font-size: 0.8rem;
-                margin-top: 4rem;
-                text-align: center;
-            }
+
+			/* The Masonry Layout (構築されたカオス) */
+			.masonry-grid {
+				/* 2列で表示。画面が狭くなると自動で1列になる */
+				column-count: 2;
+				/* 列と列の間の広い余白 */
+				column-gap: 3rem;
+				width: 100%;
+			}
+
+			.grid-item {
+				/* これが重要。要素が列をまたいで分割されるのを防ぐ */
+				break-inside: avoid;
+				/* 上下の要素間の余白 */
+				margin-bottom: 3rem;
+			}
+
+			.grid-item img {
+				width: 100%;
+				height: auto; /* アスペクト比を維持 */
+				display: block;
+				/* 画像の角をわずかに落とすか、完全に鋭利にするか。今回は鋭利に。 */
+				/* border-radius: 2px; */ 
+			}
 		</style>
 	</head>
 	<body>
 		<div class="grid-container">
-            <Header activeNav="collection" />
+			<Header activeNav="collection" />
             
-            <div class="placeholder">
-                // ARCHIVE OF AESTHETICS<br>
-                // UNDER CONSTRUCTION
-            </div>
+            <main class="masonry-grid">
+                {dummyImages.map((image) => (
+                    <div class="grid-item">
+                        <img src={image.src} alt={image.alt} loading="lazy" />
+                    </div>
+                ))}
+            </main>
 		</div>
 	</body>
 </html>
