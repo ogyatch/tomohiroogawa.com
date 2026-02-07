@@ -1,11 +1,8 @@
 ---
-import Header from '../../components/Header.astro';
 import collectionData from '../../data/collection.json';
 
-// 静的パスの生成: JSONにある全ID分のページを作る
 export async function getStaticPaths() {
   return collectionData.map((item) => {
-    // 前後のアイテムを探してナビゲーション用に渡す
     const index = collectionData.findIndex(d => d.id === item.id);
     const prevItem = index > 0 ? collectionData[index - 1] : null;
     const nextItem = index < collectionData.length - 1 ? collectionData[index + 1] : null;
@@ -32,137 +29,184 @@ const { item, prevItem, nextItem } = Astro.props;
 
 		<style>
 			* { box-sizing: border-box; }
-			html { scrollbar-gutter: stable; }
+			
+			/* スクロールバーのガタつきを防止 */
+			html {
+				scrollbar-gutter: stable;
+			}
+
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
 				background-color: #fff;
 				color: #111;
 				margin: 0;
-				display: flex;
-				justify-content: center;
 				min-height: 100vh;
-			}
-
-			.grid-container {
-				width: 100%;
-				max-width: 960px; /* 検分室は少し広めに */
-				padding: 6rem 2rem;
 				display: flex;
 				flex-direction: column;
-				align-items: center; /* 中央配置 */
 			}
 
-			/* Viewer Layout */
-			.inspection-room {
-				width: 100%;
+			/* 画面全体を一つのキャンバスとする */
+			.inspection-container {
+				flex: 1;
 				display: flex;
 				flex-direction: column;
-				gap: 3rem;
-			}
-
-			/* The Artwork */
-			.artwork {
-				width: 100%;
-				max-height: 80vh; /* 画面に収まるように */
-				object-fit: contain;
-				display: block;
-			}
-
-			/* Meta Data Panel */
-			.caption-panel {
-				width: 100%;
-				max-width: 720px; /* テキストは読みやすい幅で */
+				padding: 4rem 3rem; /* 広めの余白 */
+				max-width: 1400px;
 				margin: 0 auto;
-				border-top: 1px solid #eaeaea; /* 極薄の境界線 */
-				padding-top: 2rem;
-				display: flex;
-				flex-direction: column;
-				gap: 1.5rem;
+				width: 100%;
+                justify-content: center; /* 上下中央配置 */
 			}
 
-			.caption-header {
+			/* 1. The Stage (Image Area) */
+			.stage {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 3rem; /* パネルとの距離 */
+			}
+
+			.artwork {
+				max-width: 100%;
+				max-height: 75vh; /* 画面内に収まる高さ */
+				width: auto;
+				height: auto;
+				display: block;
+				object-fit: contain;
+                /* クリックで戻る（UX向上のため） */
+                cursor: zoom-out;
+			}
+
+			/* 2. The Instrument Panel (Footer Area) */
+			.instrument-panel {
 				display: flex;
 				justify-content: space-between;
-				align-items: baseline;
+				align-items: flex-end; /* 下揃え */
+				width: 100%;
+				font-size: 0.9rem;
+                border-top: none; /* 線は削除 */
+			}
+
+			/* Left: Context (Emotion) */
+			.panel-left {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+				max-width: 50%;
 			}
 
 			h1 {
 				font-size: 1.2rem;
-				font-weight: 600;
+				font-weight: 500;
 				margin: 0;
-				letter-spacing: 0.05em;
+				letter-spacing: 0.03em;
+				line-height: 1.2;
 			}
 
-			.meta-info {
+			.note {
+				font-size: 0.9rem;
+				color: #444;
+				line-height: 1.6;
+				margin: 0;
+			}
+
+			/* Right: System (Logic & Control) */
+			.panel-right {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				gap: 1.5rem;
+				text-align: right;
+			}
+
+			.meta-data {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
 				color: #888;
 				display: flex;
-				gap: 1.5rem;
+				flex-direction: column;
+				gap: 0.2rem;
 			}
 
-			.note {
-				font-size: 0.95rem;
-				line-height: 1.8;
-				color: #333;
-				text-align: justify;
-			}
-
-			/* Navigation (Prev/Next) */
-			.room-nav {
-				display: flex;
-				justify-content: space-between;
-				width: 100%;
-				max-width: 720px;
-				margin: 4rem auto 0;
+			/* Navigation Controls */
+			.controls {
 				font-family: "IBM Plex Mono", monospace;
-				font-size: 0.8rem;
+				font-size: 0.9rem;
+				display: flex;
+				gap: 2rem; /* 操作項目の間隔 */
 			}
 
-			.nav-link {
+			.control-link {
 				text-decoration: none;
 				color: #111;
 				transition: opacity 0.2s;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
 			}
-			.nav-link:hover { opacity: 0.5; }
-			.nav-disabled { color: #eee; pointer-events: none; }
+			.control-link:hover { opacity: 0.5; }
+			
+			.disabled {
+				color: #eaeaea;
+				pointer-events: none;
+			}
 
+            /* Mobile Response */
+            @media (max-width: 768px) {
+                .inspection-container { padding: 2rem 1.5rem; }
+                .instrument-panel { flex-direction: column; gap: 2rem; align-items: flex-start; }
+                .panel-right { align-items: flex-start; text-align: left; width: 100%; flex-direction: row-reverse; justify-content: space-between;}
+                .artwork { max-height: 60vh; }
+            }
 		</style>
 	</head>
 	<body>
-		<div class="grid-container">
-			<Header activeNav="collection" />
+		<div class="inspection-container">
+			
+			<div class="stage">
+                <a href="/collection">
+				    <img src={item.image} alt={item.title} class="artwork" />
+                </a>
+			</div>
 
-			<main class="inspection-room">
-				<img src={item.image} alt={item.title} class="artwork" />
-
-				<div class="caption-panel">
-					<div class="caption-header">
-						<h1>{item.title}</h1>
-						<div class="meta-info">
-							<span>{item.date}</span>
-							<span>SRC: {item.source}</span>
-						</div>
-					</div>
+			<footer class="instrument-panel">
+				
+				<div class="panel-left">
+					<h1>{item.title}</h1>
 					<p class="note">{item.note}</p>
 				</div>
 
-				<nav class="room-nav">
-					{prevItem ? (
-						<a href={`/collection/${prevItem.id}`} class="nav-link">&lt; PREV</a>
-					) : (
-						<span class="nav-disabled">&lt; PREV</span>
-					)}
-					
-					<a href="/collection" class="nav-link">[INDEX]</a>
+				<div class="panel-right">
+					<div class="meta-data">
+						<span>DATE: {item.date}</span>
+						<span>SRC : {item.source}</span>
+						<span>ID  : #{item.id}</span>
+					</div>
 
-					{nextItem ? (
-						<a href={`/collection/${nextItem.id}`} class="nav-link">NEXT &gt;</a>
-					) : (
-						<span class="nav-disabled">NEXT &gt;</span>
-					)}
-				</nav>
-			</main>
+					<nav class="controls">
+						{prevItem ? (
+							<a href={`/collection/${prevItem.id}`} class="control-link">
+                                <span>&larr; PREV</span>
+                            </a>
+						) : (
+							<span class="control-link disabled">&larr; PREV</span>
+						)}
+
+						<a href="/collection" class="control-link">
+                            [INDEX]
+                        </a>
+
+						{nextItem ? (
+							<a href={`/collection/${nextItem.id}`} class="control-link">
+                                <span>NEXT &rarr;</span>
+                            </a>
+						) : (
+							<span class="control-link disabled">NEXT &rarr;</span>
+						)}
+					</nav>
+				</div>
+
+			</footer>
 		</div>
 	</body>
 </html>
