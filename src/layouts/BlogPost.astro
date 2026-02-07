@@ -16,6 +16,7 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={frontmatter.description} />
 		<title>{frontmatter.title} | Tomohiro Ogawa</title>
 		
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,14 +48,13 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 			}
 
 			header {
-				margin-bottom: 5rem;
+				margin-bottom: 4rem; /* 本文との距離 */
 			}
 
-			/* UNIFIED META STYLE */
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #888; /* 統一カラー */
+				color: #888;
 				margin-bottom: 0.6rem;
 				display: flex;
 				gap: 1rem;
@@ -66,6 +66,17 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 				margin: 0;
 				line-height: 1.2;
 				letter-spacing: 0.02em;
+				margin-bottom: 1.5rem; /* Descriptionとの距離 */
+			}
+
+			/* 新設: Lead Text Style */
+			.lead {
+				font-size: 1rem;
+				color: #666;
+				line-height: 1.6;
+				margin: 0;
+				border-left: 2px solid #eaeaea; /* 控えめなアクセント */
+				padding-left: 1rem;
 			}
 
 			main {
@@ -126,6 +137,12 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 					</time>
 				</div>
 				<h1>{frontmatter.title}</h1>
+				
+				{frontmatter.description && (
+					<p class="lead">
+						{frontmatter.description}
+					</p>
+				)}
 			</header>
 
 			<main>
