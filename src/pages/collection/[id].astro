@@ -1,0 +1,168 @@
+---
+import Header from '../../components/Header.astro';
+import collectionData from '../../data/collection.json';
+
+// 静的パスの生成: JSONにある全ID分のページを作る
+export async function getStaticPaths() {
+  return collectionData.map((item) => {
+    // 前後のアイテムを探してナビゲーション用に渡す
+    const index = collectionData.findIndex(d => d.id === item.id);
+    const prevItem = index > 0 ? collectionData[index - 1] : null;
+    const nextItem = index < collectionData.length - 1 ? collectionData[index + 1] : null;
+
+    return {
+      params: { id: item.id },
+      props: { item, prevItem, nextItem },
+    };
+  });
+}
+
+const { item, prevItem, nextItem } = Astro.props;
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{item.title} | Collection</title>
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+
+		<style>
+			* { box-sizing: border-box; }
+			html { scrollbar-gutter: stable; }
+			body {
+				font-family: "IBM Plex Sans JP", sans-serif;
+				background-color: #fff;
+				color: #111;
+				margin: 0;
+				display: flex;
+				justify-content: center;
+				min-height: 100vh;
+			}
+
+			.grid-container {
+				width: 100%;
+				max-width: 960px; /* 検分室は少し広めに */
+				padding: 6rem 2rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center; /* 中央配置 */
+			}
+
+			/* Viewer Layout */
+			.inspection-room {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				gap: 3rem;
+			}
+
+			/* The Artwork */
+			.artwork {
+				width: 100%;
+				max-height: 80vh; /* 画面に収まるように */
+				object-fit: contain;
+				display: block;
+			}
+
+			/* Meta Data Panel */
+			.caption-panel {
+				width: 100%;
+				max-width: 720px; /* テキストは読みやすい幅で */
+				margin: 0 auto;
+				border-top: 1px solid #eaeaea; /* 極薄の境界線 */
+				padding-top: 2rem;
+				display: flex;
+				flex-direction: column;
+				gap: 1.5rem;
+			}
+
+			.caption-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+			}
+
+			h1 {
+				font-size: 1.2rem;
+				font-weight: 600;
+				margin: 0;
+				letter-spacing: 0.05em;
+			}
+
+			.meta-info {
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.75rem;
+				color: #888;
+				display: flex;
+				gap: 1.5rem;
+			}
+
+			.note {
+				font-size: 0.95rem;
+				line-height: 1.8;
+				color: #333;
+				text-align: justify;
+			}
+
+			/* Navigation (Prev/Next) */
+			.room-nav {
+				display: flex;
+				justify-content: space-between;
+				width: 100%;
+				max-width: 720px;
+				margin: 4rem auto 0;
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.8rem;
+			}
+
+			.nav-link {
+				text-decoration: none;
+				color: #111;
+				transition: opacity 0.2s;
+			}
+			.nav-link:hover { opacity: 0.5; }
+			.nav-disabled { color: #eee; pointer-events: none; }
+
+		</style>
+	</head>
+	<body>
+		<div class="grid-container">
+			<Header activeNav="collection" />
+
+			<main class="inspection-room">
+				<img src={item.image} alt={item.title} class="artwork" />
+
+				<div class="caption-panel">
+					<div class="caption-header">
+						<h1>{item.title}</h1>
+						<div class="meta-info">
+							<span>{item.date}</span>
+							<span>SRC: {item.source}</span>
+						</div>
+					</div>
+					<p class="note">{item.note}</p>
+				</div>
+
+				<nav class="room-nav">
+					{prevItem ? (
+						<a href={`/collection/${prevItem.id}`} class="nav-link">&lt; PREV</a>
+					) : (
+						<span class="nav-disabled">&lt; PREV</span>
+					)}
+					
+					<a href="/collection" class="nav-link">[INDEX]</a>
+
+					{nextItem ? (
+						<a href={`/collection/${nextItem.id}`} class="nav-link">NEXT &gt;</a>
+					) : (
+						<span class="nav-disabled">NEXT &gt;</span>
+					)}
+				</nav>
+			</main>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "001",
+    "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80",
+    "title": "Mountains in Silence",
+    "date": "2026-02-08",
+    "source": "Unsplash",
+    "note": "静寂と稜線のコントラスト。黒の深さ。"
+  },
+  {
+    "id": "002",
+    "image": "https://images.unsplash.com/photo-1494438615416-400c46334a30?w=1200&q=80",
+    "title": "Structural Logic",
+    "date": "2026-02-07",
+    "source": "ArchDaily",
+    "note": "機能が形態を決定する瞬間。"
+  },
+  {
+    "id": "003",
+    "image": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1200&q=80",
+    "title": "Organic Texture",
+    "date": "2026-02-05",
+    "source": "Field Note",
+    "note": "自然界のフラクタル構造。"
+  },
+  {
+    "id": "004",
+    "image": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=1200&q=80",
+    "title": "Abstract Curve",
+    "date": "2026-01-20",
+    "source": "Unknown",
+    "note": "意図不明の曲線美。"
+  },
+  {
+    "id": "005",
+    "image": "https://images.unsplash.com/photo-1497493292307-31c376b6e479?w=1200&q=80",
+    "title": "Minimal Space",
+    "date": "2026-01-15",
+    "source": "Interior Log",
+    "note": "光のための空白。"
+  },
+  {
+    "id": "006",
+    "image": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&q=80",
+    "title": "Solitary Tree",
+    "date": "2026-01-10",
+    "source": "Nature",
+    "note": "孤立の美学。"
+  }
+]
