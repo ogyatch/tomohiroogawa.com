@@ -1,5 +1,49 @@
 ---
 import Header from '../components/Header.astro';
+
+// Project Data: 実績と実験の記録
+const projects = [
+  {
+    title: "Tomohiro Ogawa Portfolio",
+    year: "2026",
+    category: "Web / Identity",
+    stack: ["Astro", "Swiss Style", "GitHub Actions"],
+    status: "LIVE",
+    description: "デジタル空間における自己の構造化。IBM Plexを用いたタイポグラフィと、装飾を排除した「無」のグリッドシステム。",
+    link: "https://tomohiroogawa.com",
+    linkText: "View Source"
+  },
+  {
+    title: "Monolith (Concept)",
+    year: "2025",
+    category: "Architecture",
+    stack: ["Rust", "WebAssembly", "OpenGL"],
+    status: "PROTOTYPE",
+    description: "分散型ネットワークにおける永続的なデータ保存構造の実験。ブロックチェーンに依存しない合意形成アルゴリズムの実装。",
+    link: "#",
+    linkText: "Documentation"
+  },
+  {
+    title: "Obscura CLI",
+    year: "2024",
+    category: "Tooling",
+    stack: ["Go", "CLI", "Image Processing"],
+    status: "ARCHIVED",
+    description: "コマンドラインから画像を「劣化」させるためのツール。デジタルデータに意図的なノイズと経年変化を与える。",
+    link: "#",
+    linkText: "GitHub"
+  },
+  {
+    title: "Grid Calculator",
+    year: "2023",
+    category: "Utility",
+    stack: ["TypeScript", "React"],
+    status: "BETA",
+    description: "黄金比と白銀比に基づき、最適なレイアウト数値を算出するデザイナー向け計算機。",
+    link: "#",
+    linkText: "Launch App"
+  }
+];
 ---
 
 <html lang="ja">
@@ -14,10 +58,13 @@ import Header from '../components/Header.astro';
 		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
 
 		<style>
+			/* Reset & Base */
 			* { box-sizing: border-box; }
 			html { scrollbar-gutter: stable; }
 			body {
 				font-family: "IBM Plex Sans JP", sans-serif;
+				font-weight: 400;
+				font-feature-settings: "palt";
 				background-color: #fff;
 				color: #111;
 				margin: 0;
@@ -32,23 +79,129 @@ import Header from '../components/Header.astro';
 				display: flex;
 				flex-direction: column;
 			}
-            .placeholder {
-                font-family: "IBM Plex Mono", monospace;
-                color: #999;
-                font-size: 0.8rem;
-                margin-top: 4rem;
-                text-align: center;
-            }
+
+			/* Project List Structure */
+			.project-list {
+				display: flex;
+				flex-direction: column;
+				gap: 0; /* 隙間なし。線で区切る */
+			}
+
+			.project-item {
+				border-top: 1px solid #111; /* 明確な境界線 */
+				padding: 3rem 0;
+				display: flex;
+				flex-direction: column;
+				gap: 1.5rem;
+			}
+			/* 最後の要素だけ下にも線を引く */
+			.project-item:last-child {
+				border-bottom: 1px solid #111;
+			}
+
+			/* Header: Title & Meta */
+			.project-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				flex-wrap: wrap;
+				gap: 1rem;
+			}
+
+			.project-title {
+				font-size: 1.4rem;
+				font-weight: 600;
+				line-height: 1.2;
+				letter-spacing: 0.02em;
+			}
+
+			.project-meta {
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.75rem;
+				color: #666;
+				display: flex;
+				gap: 1.5rem;
+			}
+
+			/* Tags & Status */
+			.tech-stack {
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.75rem;
+				color: #888;
+				margin-top: -0.5rem; /* タイトルとの距離感調整 */
+			}
+
+			.status-tag {
+				display: inline-block;
+				border: 1px solid #ccc;
+				padding: 0.1em 0.4em;
+				font-size: 0.7rem;
+				margin-right: 0.5rem;
+				color: #111;
+			}
+
+			/* Description */
+			.project-desc {
+				font-size: 0.95rem;
+				line-height: 1.7;
+				color: #333;
+				max-width: 90%; /* 余白を作って読みやすく */
+				text-align: justify;
+			}
+
+			/* Link */
+			.project-link {
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.8rem;
+				color: #111;
+				text-decoration: none;
+				align-self: flex-start;
+				border-bottom: 1px solid transparent;
+				transition: border-bottom-color 0.2s;
+			}
+			.project-link:hover {
+				border-bottom-color: #111;
+			}
+			.arrow {
+				display: inline-block;
+				transition: transform 0.2s;
+			}
+			.project-link:hover .arrow {
+				transform: translateX(4px);
+			}
+
 		</style>
 	</head>
 	<body>
 		<div class="grid-container">
 			<Header activeNav="projects" />
             
-            <div class="placeholder">
-                // LOG OF CREATION<br>
-                // UNDER CONSTRUCTION
-            </div>
+            <main class="project-list">
+                {projects.map((project) => (
+                    <article class="project-item">
+                        <header class="project-header">
+                            <h2 class="project-title">{project.title}</h2>
+                            <div class="project-meta">
+                                <span>{project.category}</span>
+                                <span>{project.year}</span>
+                            </div>
+                        </header>
+                        
+                        <div class="tech-stack">
+                            <span class="status-tag">[{project.status}]</span>
+                            {project.stack.join(' / ')}
+                        </div>
+
+                        <p class="project-desc">
+                            {project.description}
+                        </p>
+
+                        <a href={project.link} class="project-link">
+                            {project.linkText} <span class="arrow">→</span>
+                        </a>
+                    </article>
+                ))}
+            </main>
 		</div>
 	</body>
 </html>
