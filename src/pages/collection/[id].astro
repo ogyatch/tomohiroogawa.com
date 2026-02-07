@@ -29,8 +29,6 @@ const { item, prevItem, nextItem } = Astro.props;
 
 		<style>
 			* { box-sizing: border-box; }
-			
-			/* スクロールバーのガタつき防止 */
 			html { scrollbar-gutter: stable; }
 
 			body {
@@ -38,18 +36,22 @@ const { item, prevItem, nextItem } = Astro.props;
 				background-color: #fff;
 				color: #111;
 				margin: 0;
-				height: 100vh; /* ビューポートの高さに固定 */
-				overflow: hidden; /* スクロール禁止（画像は縮小して表示） */
+				/* Dynamic Viewport Height: モバイルのアドレスバー対策 */
+				height: 100dvh; 
+				overflow: hidden; /* スクロール完全禁止 */
 			}
 
 			/* 画面全体レイアウト (Grid) */
 			.inspection-container {
 				display: grid;
-				/* Row 1: 画像エリア (残りのスペース) | Row 2: パネル (自動調整) */
-				grid-template-rows: 1fr auto; 
+				/* Fix: minmax(0, 1fr) 
+                   画像エリアの最小サイズを0に設定し、コンテンツによる拡張を強制阻止する
+                */
+				grid-template-rows: minmax(0, 1fr) auto; 
 				height: 100%;
-				padding: 3rem; /* 外枠の余白 */
-				gap: 2rem;     /* 画像とパネルの間隔 */
+				padding: 3rem;
+				gap: 2rem;
+				width: 100%;
 			}
 
 			/* 1. The Stage (Image Area) */
@@ -57,28 +59,30 @@ const { item, prevItem, nextItem } = Astro.props;
 				width: 100%;
 				height: 100%;
 				display: flex;
-				align-items: center;  /* 上下中央 */
-				justify-content: center; /* 左右中央 */
-				min-height: 0; /* 重要：Grid内での画像の縮小を許可する */
+				align-items: center;
+				justify-content: center;
+                overflow: hidden; /* 万が一のはみ出しもカット */
 			}
 
 			.artwork {
 				max-width: 100%;
-				max-height: 100%; /* 親(.stage)の高さに完全に収める */
+				max-height: 100%;
 				width: auto;
 				height: auto;
-				object-fit: contain; /* アスペクト比を維持 */
+				object-fit: contain; /* アスペクト比維持 */
 				cursor: zoom-out;
 			}
 
 			/* 2. The Instrument Panel (Footer) */
 			.instrument-panel {
 				display: grid;
-				/* Left (Info) | Right (Controls) */
 				grid-template-columns: 1fr 240px; 
 				gap: 2rem;
 				width: 100%;
-				align-items: start; /* 上辺揃え */
+				align-items: start;
+                /* パネル自体の高さが暴れないように制限 */
+                max-height: 30vh; 
+                overflow-y: auto; /* 万が一テキストが多すぎる場合はここだけスクロール */
 			}
 
 			/* Left Block: Title & Context */
@@ -146,10 +150,11 @@ const { item, prevItem, nextItem } = Astro.props;
 
 			/* Mobile Layout */
 			@media (max-width: 768px) {
-				.inspection-container { padding: 1.5rem; gap: 1.5rem; }
+				.inspection-container { padding: 1.5rem; gap: 1rem; }
 				.instrument-panel { 
 					grid-template-columns: 1fr;
 					gap: 1.5rem;
+                    max-height: 40vh; /* スマホでは少し広めに許可 */
 				}
 				.panel-system { 
 					text-align: left; 
