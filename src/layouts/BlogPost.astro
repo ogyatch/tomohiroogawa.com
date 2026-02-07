@@ -48,88 +48,55 @@ const entryNumber = String(sortedPosts.length - currentIndex).padStart(3, '0');
 			}
 
 			header {
-				margin-bottom: 5rem; /* 本文との間に大きな空白を作る */
+				/* 本文が始まる前の大きな区切り */
+				margin-bottom: 5rem;
+				display: flex;
+				flex-direction: column;
 			}
 
 			.meta {
 				font-family: "IBM Plex Mono", monospace;
 				font-size: 0.75rem;
-				color: #888;
-				margin-bottom: 1rem;
+				color: #999;
+				margin-bottom: 0.5rem; /* タイトルとの距離 */
 				display: flex;
 				gap: 1rem;
 			}
 
 			h1 {
-				font-size: 2rem;
+				font-size: 2.2rem; /* より大きく、威厳を持たせる */
 				font-weight: 600;
 				margin: 0;
-				line-height: 1.25;
+				line-height: 1.2;
 				letter-spacing: 0.02em;
-				margin-bottom: 2rem;
+				/* タイトルとDescriptionの間に明確な「空」を作る */
+				margin-bottom: 2.5rem;
 			}
 
-			/* 修正: Axiom Style (公理としてのメタファー) */
 			.lead {
-				font-family: "IBM Plex Mono", monospace; /* モノスペースで異質化 */
-				font-size: 0.9rem;
-				color: #333; /* 本文より少し濃く、強く */
+				font-family: "IBM Plex Mono", monospace;
+				font-size: 0.95rem;
+				color: #333;
 				line-height: 1.8;
 				margin: 0;
-				/* ボーダーを削除し、純粋なテキストとして自立させる */
-				border: none; 
+				border: none;
 				padding: 0;
 			}
 
 			main {
 				font-size: 1rem;
-				line-height: 1.9; /* 読みやすさのために少し広げる */
+				line-height: 1.9;
 				font-weight: 400;
 			}
-			main :global(p) {
-				margin-bottom: 2.5rem;
-				text-align: justify;
-			}
-			main :global(strong) {
-				font-weight: 600;
-				color: #000;
-			}
-			main :global(h2) {
-				font-size: 1.3rem;
-				font-weight: 600;
-				margin-top: 4.5rem;
-				margin-bottom: 2rem;
-				letter-spacing: 0.05em;
-			}
-			main :global(img) {
-				max-width: 100%;
-				height: auto;
-				display: block;
-				margin: 3rem 0;
-			}
-			main :global(ul) {
-				padding-left: 1rem;
-				margin-bottom: 2rem;
-			}
-			main :global(li) {
-				margin-bottom: 0.5rem;
-			}
-			main :global(blockquote) {
-				margin: 3rem 0;
-				padding-left: 1.5rem;
-				border-left: 2px solid #111;
-				font-style: italic;
-				color: #444;
-			}
-			main :global(pre) {
-				font-family: "IBM Plex Mono", monospace;
-				background: #f8f8f8;
-				padding: 1.5rem;
-				overflow-x: auto;
-				font-size: 0.85rem;
-				margin: 2.5rem 0;
-				border-radius: 2px;
-			}
+			/* 本文スタイル */
+			main :global(p) { margin-bottom: 2.5rem; text-align: justify; }
+			main :global(strong) { font-weight: 600; color: #000; }
+			main :global(h2) { font-size: 1.3rem; font-weight: 600; margin-top: 4.5rem; margin-bottom: 2rem; letter-spacing: 0.05em; }
+			main :global(img) { max-width: 100%; height: auto; display: block; margin: 3rem 0; }
+			main :global(ul) { padding-left: 1rem; margin-bottom: 2rem; }
+			main :global(li) { margin-bottom: 0.5rem; }
+			main :global(blockquote) { margin: 3rem 0; padding-left: 1.5rem; border-left: 2px solid #111; font-style: italic; color: #444; }
+			main :global(pre) { font-family: "IBM Plex Mono", monospace; background: #f8f8f8; padding: 1.5rem; overflow-x: auto; font-size: 0.85rem; margin: 2.5rem 0; border-radius: 2px; }
 		</style>
 	</head>
 	<body>
