@@ -1,7 +1,7 @@
 ---
 layout: "../../layouts/BlogPost.astro"
 title: "BLUE GIANT"
-pubDate: "2026-02-08"
+pubDate: "2026-01-24"
 description: "論理だけで固められたデザインは退屈だ。"
 ---
 
