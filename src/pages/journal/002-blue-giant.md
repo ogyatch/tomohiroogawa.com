@@ -1,8 +1,8 @@
 ---
 layout: "../../layouts/BlogPost.astro"
-title: "BLUE GIANT: The Structure of Improvisation"
+title: "BLUE GIANT"
 pubDate: "2026-02-08"
-description: "論理だけで固められたUIは退屈だ。"
+description: "論理だけで固められたデザインは退屈だ。"
 ---
 
 ## 3DCGという「ノイズ」の必然
