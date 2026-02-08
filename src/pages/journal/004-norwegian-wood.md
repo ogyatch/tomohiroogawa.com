@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/BlogPost.astro"
-title: "ノルウェーの森"
+title: "ノルウェイの森"
 pubDate: "2026-02-03"
 description: "死はシステムのバグではなく、仕様として組み込まれた構造である。"
 ---
