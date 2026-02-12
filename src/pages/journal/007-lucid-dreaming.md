@@ -1,6 +1,6 @@
 ---
 layout: "../../layouts/BlogPost.astro"
-title: "Lucid Dreaming: The Deforestation of Unconscious"
+title: "明晰夢"
 pubDate: "2026-02-12"
 description: "予期せぬノイズこそが夢の本質。"
 ---
