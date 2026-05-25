@@ -1,125 +1,171 @@
 ---
 import Header from '../components/Header.astro';
-
-const posts = await Astro.glob('./journal/*.md');
-const sortedPosts = posts.sort((a, b) => 
-  new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
-);
 ---
 
 <html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Tomohiro Ogawa</title>
-		
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Tomohiro Ogawa — Photography" />
+    <title>Tomohiro Ogawa</title>
 
-		<style>
-			* { box-sizing: border-box; }
-			html { scrollbar-gutter: stable; }
-			
-			body {
-				font-family: "IBM Plex Sans JP", sans-serif;
-				font-weight: 400;
-				font-feature-settings: "palt";
-				background-color: #fff;
-				color: #111;
-				margin: 0;
-				display: flex;
-				justify-content: center;
-				min-height: 100vh;
-			}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
 
-			.grid-container {
-				width: 100%;
-				max-width: 720px;
-				padding: 6rem 2rem;
-				display: flex;
-				flex-direction: column;
-			}
+    <style>
+      * { box-sizing: border-box; }
+      html { scrollbar-gutter: stable; }
 
-			ul {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
+      body {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        background-color: #fff;
+        color: #111;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
 
-			.entry {
-				/* 次の記事との間隔 */
-				margin-bottom: 5rem;
-				display: flex;
-				flex-direction: column;
-			}
+      .container {
+        width: 100%;
+        max-width: 720px;
+        padding: 6rem 2rem;
+        display: flex;
+        flex-direction: column;
+      }
 
-			.meta {
-				font-family: "IBM Plex Mono", monospace;
-				font-size: 0.75rem;
-				color: #999;
-				/* 日付とタイトルを極限まで近づける */
-				margin-bottom: 0.3rem; 
-				display: flex;
-				gap: 1rem;
-			}
+      /* Statement */
+      .statement {
+        font-family: "Noto Serif JP", serif;
+        font-weight: 200;
+        font-size: 1.25rem;
+        line-height: 2;
+        color: #111;
+        margin: 0 0 3rem;
+        letter-spacing: 0.02em;
+      }
 
-			.title-link {
-				display: block;
-				text-decoration: none;
-				color: #111;
-				font-size: 1.5rem; /* タイトルの存在感を増す */
-				font-weight: 600;
-				line-height: 1.25;
-				letter-spacing: 0.02em;
-				/* タイトルとDescriptionの間に「呼吸」を作る */
-				margin-bottom: 1.2rem;
-				transition: opacity 0.2s;
-			}
-			.title-link:hover { opacity: 0.6; }
+      .statement-coda {
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        color: #999;
+        margin: 0 0 5rem;
+      }
 
-			.description {
-				font-family: "IBM Plex Mono", monospace;
-				font-size: 0.85rem;
-				color: #444; /* 読みやすさのため少し濃く */
-				line-height: 1.8;
-				margin: 0;
-				letter-spacing: 0.01em;
-				/* 幅を少し絞り、詩のような佇まいに */
-				max-width: 95%;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="grid-container">
-			<Header activeNav="journal" />
+      /* Works */
+      .section {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 2rem;
+        border-top: 0.5px solid #e0e0e0;
+        padding-top: 2.5rem;
+        margin-bottom: 0;
+      }
 
-			<main>
-				<ul>
-					{sortedPosts.map((post, index) => {
-						const entryNumber = String(sortedPosts.length - index).padStart(3, '0');
-						return (
-							<li class="entry">
-								<div class="meta">
-									<span>#{entryNumber}</span>
-									<time datetime={post.frontmatter.pubDate}>
-										{new Date(post.frontmatter.pubDate).toLocaleDateString('en-CA')}
-									</time>
-								</div>
-								<a href={post.url} class="title-link">
-									{post.frontmatter.title}
-								</a>
-								{post.frontmatter.description && (
-									<p class="description">
-										{post.frontmatter.description}
-									</p>
-								)}
-							</li>
-						)
-					})}
-				</ul>
-			</main>
-		</div>
-	</body>
+      .section + .section {
+        margin-top: 2.5rem;
+      }
+
+      .section-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        color: #bbb;
+        text-transform: uppercase;
+        padding-top: 3px;
+      }
+
+      .work-item {
+        padding: 1.25rem 0;
+        border-bottom: 0.5px solid #f0f0f0;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+      }
+      .work-item:hover { opacity: 0.5; }
+      .work-item:first-child { padding-top: 0; }
+      .work-item:last-child { border-bottom: none; }
+
+      .work-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 0.4rem;
+      }
+
+      .work-title {
+        font-family: "Noto Serif JP", serif;
+        font-weight: 300;
+        font-size: 0.95rem;
+        color: #111;
+        letter-spacing: 0.03em;
+      }
+
+      .work-year {
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        color: #bbb;
+      }
+
+      .work-desc {
+        font-size: 0.72rem;
+        line-height: 1.8;
+        color: #888;
+        font-weight: 300;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <Header activeNav="works" />
+
+      <p class="statement">
+        B面を、撮る。<br>
+        遺跡を見に来た人が見ていないもの。<br>
+        滝を見に来た人が受け取らなかったもの。<br>
+        銀座に来た人が目的にしないもの。<br>
+        なぜ撮るのか言語化できないもの。
+      </p>
+      <p class="statement-coda">そういうものを撮り続けている。</p>
+
+      <section class="section">
+        <span class="section-label">Works</span>
+        <div>
+          <a href="/works?series=cambodian-children" class="work-item">
+            <div class="work-top">
+              <span class="work-title">Cambodian Children</span>
+              <span class="work-year">2014</span>
+            </div>
+            <p class="work-desc">カンボジアには有数の遺跡群があり、観光客はそれらを目当てに訪れる。しかし遺跡の中には子どもたちの生活があった。彼らは観光客を意識し、そして意識しなかった。初めての写真展になった作品。</p>
+          </a>
+          <a href="/works?series=waterfalls" class="work-item">
+            <div class="work-top">
+              <span class="work-title">Waterfalls</span>
+              <span class="work-year">2015</span>
+            </div>
+            <p class="work-desc">パワースポットがもてはやされた時代、私も滝を訪れていた。そこで受け取ったのは癒しではなく、エドマンド・バークが「崇高」と呼んだ、圧倒される感覚だった。</p>
+          </a>
+          <a href="/works?series=ginza-elevator" class="work-item">
+            <div class="work-top">
+              <span class="work-title">Ginza Elevator</span>
+              <span class="work-year">2017</span>
+            </div>
+            <p class="work-desc">都築響一の「TOKYO STYLE」に感化され、銀座のエレベーターを撮り始めた。華やかさの裏側にある装置を記録することで、この街の変化が見えてくると思った。芸大の卒業制作になった作品。</p>
+          </a>
+          <a href="/works?series=photo-text" class="work-item">
+            <div class="work-top">
+              <span class="work-title">写真・文</span>
+              <span class="work-year">2026—</span>
+            </div>
+            <p class="work-desc">フィルムカメラで日常を撮り、なぜ撮ったかを言葉にする試み。説明できない衝動を否定せず、ただそこにあるという事実と、写真から発想される考えを、文字として定着させていく。</p>
+          </a>
+        </div>
+      </section>
+    </div>
+  </body>
 </html>

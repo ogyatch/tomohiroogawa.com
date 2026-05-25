@@ -1,0 +1,80 @@
+---
+import Header from '../components/Header.astro';
+import worksData from '../data/works.json';
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Works | Tomohiro Ogawa</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
+
+    <style>
+      * { box-sizing: border-box; }
+      html { scrollbar-gutter: stable; }
+      body {
+        font-family: "IBM Plex Mono", monospace;
+        background-color: #fff;
+        color: #111;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .container {
+        width: 100%;
+        max-width: 720px;
+        padding: 6rem 2rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .masonry-grid {
+        column-count: 2;
+        column-gap: 2rem;
+        width: 100%;
+      }
+
+      .grid-item {
+        break-inside: avoid;
+        margin-bottom: 2rem;
+      }
+
+      .grid-item a {
+        display: block;
+        transition: opacity 0.2s;
+        cursor: zoom-in;
+      }
+      .grid-item a:hover { opacity: 0.8; }
+
+      .grid-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      @media (max-width: 480px) {
+        .masonry-grid { column-count: 1; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <Header activeNav="works" />
+      <main class="masonry-grid">
+        {worksData.map((item) => (
+          <div class="grid-item">
+            <a href={`/works/${item.id}`}>
+              <img src={item.image} alt={item.title} loading="lazy" />
+            </a>
+          </div>
+        ))}
+      </main>
+    </div>
+  </body>
+</html>

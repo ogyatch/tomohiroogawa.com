@@ -1,0 +1,79 @@
+---
+import Header from '../components/Header.astro';
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>About | Tomohiro Ogawa</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
+
+    <style>
+      * { box-sizing: border-box; }
+      html { scrollbar-gutter: stable; }
+      body {
+        font-family: "IBM Plex Mono", monospace;
+        background-color: #fff;
+        color: #111;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .container {
+        width: 100%;
+        max-width: 720px;
+        padding: 6rem 2rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 2rem;
+        border-top: 0.5px solid #e0e0e0;
+        padding-top: 2.5rem;
+      }
+
+      .section-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        color: #bbb;
+        text-transform: uppercase;
+        padding-top: 3px;
+      }
+
+      .about-body {
+        font-family: "Noto Serif JP", serif;
+        font-weight: 300;
+        font-size: 0.9rem;
+        line-height: 2.1;
+        color: #555;
+      }
+
+      .about-body p {
+        margin: 0 0 1.5em;
+      }
+      .about-body p:last-child { margin-bottom: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <Header activeNav="about" />
+      <div class="about-grid">
+        <span class="section-label">About</span>
+        <div class="about-body">
+          <p>幼少期に祖父のフィルムカメラを触ったことが原体験にある。初給料でカメラを買い、2009年から撮り始めた。最初は身近な人たちを撮っていた。</p>
+          <p>2014年、カンボジアで撮った写真で初めての写真展を開いた。それ以来、物事のB面に目が向く癖が自分にあることに気づいた。</p>
+          <p>その癖は、やがて自分自身にも向かった。なぜ撮ったかを言葉にする試みを始めたのは、説明するためではなく、自分自身の思考のB面を探るためだ。その積み重ねを、いつか一冊にしたい。</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
