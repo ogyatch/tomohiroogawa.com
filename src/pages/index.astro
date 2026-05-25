@@ -12,14 +12,14 @@ import Header from '../components/Header.astro';
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=IBM+Plex+Mono:wght@300&display=swap" rel="stylesheet">
 
     <style>
       * { box-sizing: border-box; }
       html { scrollbar-gutter: stable; }
 
       body {
-        font-family: "IBM Plex Mono", monospace;
+        font-family: "Shippori Mincho", serif;
         font-weight: 400;
         background-color: #fff;
         color: #111;
@@ -31,92 +31,83 @@ import Header from '../components/Header.astro';
 
       .container {
         width: 100%;
-        max-width: 720px;
-        padding: 6rem 2rem;
-        display: flex;
-        flex-direction: column;
+        max-width: 560px;
+        padding: 0 2rem 4rem;
       }
 
-      /* Statement */
-      .statement {
-        font-family: "Noto Serif JP", serif;
-        font-weight: 200;
-        font-size: 1.25rem;
-        line-height: 2;
+      .hero { padding: 4rem 0 5rem; }
+
+      .stmt-lead {
+        font-size: 3rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
         color: #111;
-        margin: 0 0 3rem;
+        line-height: 1.1;
+        margin: 0 0 3.5rem;
+      }
+
+      .stmt-body {
+        font-size: 0.85rem;
+        font-weight: 400;
+        line-height: 2.6;
+        letter-spacing: 0.05em;
+        color: #888;
+        margin: 0;
+      }
+
+      .works {
+        padding: 4rem 0 0;
+        border-top: 0.5px solid #e0e0e0;
+      }
+
+      .work {
+        display: block;
+        padding: 2.2rem 0;
+        border-bottom: 0.5px solid #efefef;
+        text-decoration: none;
+        color: inherit;
+        transition: opacity 0.3s;
+      }
+      .work:hover { opacity: 0.35; }
+      .work:last-child { border-bottom: none; }
+
+      .work-title {
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        color: #111;
+        line-height: 1.3;
+        margin: 0 0 0.8rem;
+        display: block;
+      }
+
+      .work-yr {
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: #aaa;
         letter-spacing: 0.02em;
       }
 
-      .statement-coda {
-        font-size: 0.75rem;
-        letter-spacing: 0.15em;
-        color: #999;
-        margin: 0 0 5rem;
-      }
-
-      /* Works */
-      .section {
-        display: grid;
-        grid-template-columns: 80px 1fr;
-        gap: 2rem;
-        border-top: 0.5px solid #e0e0e0;
-        padding-top: 2.5rem;
-        margin-bottom: 0;
-      }
-
-      .section + .section {
-        margin-top: 2.5rem;
-      }
-
-      .section-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.15em;
-        color: #bbb;
-        text-transform: uppercase;
-        padding-top: 3px;
-      }
-
-      .work-item {
-        padding: 1.25rem 0;
-        border-bottom: 0.5px solid #f0f0f0;
-        cursor: pointer;
-        transition: opacity 0.2s;
-        text-decoration: none;
-        display: block;
-        color: inherit;
-      }
-      .work-item:hover { opacity: 0.5; }
-      .work-item:first-child { padding-top: 0; }
-      .work-item:last-child { border-bottom: none; }
-
-      .work-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        margin-bottom: 0.4rem;
-      }
-
-      .work-title {
-        font-family: "Noto Serif JP", serif;
-        font-weight: 300;
-        font-size: 0.95rem;
-        color: #111;
-        letter-spacing: 0.03em;
-      }
-
-      .work-year {
-        font-size: 0.65rem;
-        letter-spacing: 0.1em;
-        color: #bbb;
-      }
-
       .work-desc {
-        font-size: 0.72rem;
-        line-height: 1.8;
+        font-size: 0.78rem;
+        line-height: 2.1;
         color: #888;
-        font-weight: 300;
+        font-weight: 400;
         margin: 0;
+      }
+
+      .foot {
+        padding: 2.5rem 0 2rem;
+        border-top: 0.5px solid #e0e0e0;
+        margin-top: 2rem;
+      }
+      .foot-txt {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+        color: #ccc;
+        text-transform: uppercase;
+        font-weight: 300;
       }
     </style>
   </head>
@@ -124,48 +115,39 @@ import Header from '../components/Header.astro';
     <div class="container">
       <Header activeNav="works" />
 
-      <p class="statement">
-        B面を、撮る。<br>
-        遺跡を見に来た人が見ていないもの。<br>
-        滝を見に来た人が受け取らなかったもの。<br>
-        銀座に来た人が目的にしないもの。<br>
-        なぜ撮るのか言語化できないもの。
-      </p>
-      <p class="statement-coda">そういうものを撮り続けている。</p>
-
-      <section class="section">
-        <span class="section-label">Works</span>
-        <div>
-          <a href="/works?series=cambodian-children" class="work-item">
-            <div class="work-top">
-              <span class="work-title">Cambodian Children</span>
-              <span class="work-year">2014</span>
-            </div>
-            <p class="work-desc">カンボジアには有数の遺跡群があり、観光客はそれらを目当てに訪れる。しかし遺跡の中には子どもたちの生活があった。彼らは観光客を意識し、そして意識しなかった。初めての写真展になった作品。</p>
-          </a>
-          <a href="/works?series=waterfalls" class="work-item">
-            <div class="work-top">
-              <span class="work-title">Waterfalls</span>
-              <span class="work-year">2015</span>
-            </div>
-            <p class="work-desc">パワースポットがもてはやされた時代、私も滝を訪れていた。そこで受け取ったのは癒しではなく、エドマンド・バークが「崇高」と呼んだ、圧倒される感覚だった。</p>
-          </a>
-          <a href="/works?series=ginza-elevator" class="work-item">
-            <div class="work-top">
-              <span class="work-title">Ginza Elevator</span>
-              <span class="work-year">2017</span>
-            </div>
-            <p class="work-desc">都築響一の「TOKYO STYLE」に感化され、銀座のエレベーターを撮り始めた。華やかさの裏側にある装置を記録することで、この街の変化が見えてくると思った。芸大の卒業制作になった作品。</p>
-          </a>
-          <a href="/works?series=photo-text" class="work-item">
-            <div class="work-top">
-              <span class="work-title">写真・文</span>
-              <span class="work-year">2026—</span>
-            </div>
-            <p class="work-desc">フィルムカメラで日常を撮り、なぜ撮ったかを言葉にする試み。説明できない衝動を否定せず、ただそこにあるという事実と、写真から発想される考えを、文字として定着させていく。</p>
-          </a>
-        </div>
+      <section class="hero">
+        <p class="stmt-lead">B面を、撮る。</p>
+        <p class="stmt-body">
+          遺跡を見に来た人が見ていないもの。<br>
+          滝を見に来た人が受け取らなかったもの。<br>
+          銀座に来た人が目的にしないもの。<br>
+          なぜ撮るのか言語化できないもの。<br>
+          そういうものを撮り続けている。
+        </p>
       </section>
+
+      <section class="works">
+        <a href="/works?series=cambodian-children" class="work">
+          <span class="work-title">Cambodian Children<span class="work-yr">（2014）</span></span>
+          <p class="work-desc">遺跡の中には子どもたちの生活があった。彼らは観光客を意識し、そして意識しなかった。初めての写真展になった作品。</p>
+        </a>
+        <a href="/works?series=waterfalls" class="work">
+          <span class="work-title">Waterfalls<span class="work-yr">（2015）</span></span>
+          <p class="work-desc">受け取ったのは癒しではなく、エドマンド・バークが「崇高」と呼んだ、圧倒される感覚だった。</p>
+        </a>
+        <a href="/works?series=ginza-elevator" class="work">
+          <span class="work-title">Ginza Elevator<span class="work-yr">（2017）</span></span>
+          <p class="work-desc">華やかさの裏側にある装置を記録することで、この街の変化が見えてくると思った。芸大の卒業制作になった作品。</p>
+        </a>
+        <a href="/works?series=photo-text" class="work">
+          <span class="work-title">写真・文<span class="work-yr">（2026 —）</span></span>
+          <p class="work-desc">説明できない衝動を否定せず、ただそこにあるという事実と、写真から発想される考えを、文字として定着させていく。</p>
+        </a>
+      </section>
+
+      <footer class="foot">
+        <span class="foot-txt">tomohiroogawa.com</span>
+      </footer>
     </div>
   </body>
 </html>

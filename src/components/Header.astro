@@ -6,56 +6,57 @@ const { activeNav = "works" } = Astro.props;
     position: sticky;
     top: 0;
     z-index: 100;
-    margin-top: -6rem;
     margin-left: -2rem;
     margin-right: -2rem;
-    padding-top: 6rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 1.5rem;
-    margin-bottom: 4rem;
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: none;
-    box-shadow: none;
+    padding: 2.5rem 2rem 2.5rem;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
   }
 
   .site-identity {
-    display: block;
     font-family: "IBM Plex Mono", monospace;
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
+    font-size: 0.625rem;
+    font-weight: 300;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    line-height: 1;
     text-decoration: none;
     color: #111;
-    margin-bottom: 1.5rem;
     transition: opacity 0.2s;
   }
   .site-identity:hover { opacity: 0.5; }
 
   nav {
     display: flex;
-    gap: 1.5rem;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 0.8rem;
+    gap: 2rem;
   }
 
   .nav-link {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.625rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     text-decoration: none;
-    color: #999;
+    color: #bbb;
     transition: color 0.2s;
   }
   .nav-link:hover { color: #111; }
-  .active { color: #111; }
+  .nav-link.active { color: #111; }
 </style>
 
 <header>
-  <a href="/" class="site-identity">Tomohiro Ogawa</a>
-  <nav>
-    <a href="/" class={`nav-link ${activeNav === 'works' ? 'active' : ''}`}>Works</a>
-    <a href="/about" class={`nav-link ${activeNav === 'about' ? 'active' : ''}`}>About</a>
-  </nav>
+  <div class="inner">
+    <a href="/" class="site-identity">Tomohiro Ogawa</a>
+    <nav>
+      <a href="/" class={`nav-link ${activeNav === 'works' ? 'active' : ''}`}>Works</a>
+      <a href="/about" class={`nav-link ${activeNav === 'about' ? 'active' : ''}`}>About</a>
+    </nav>
+  </div>
 </header>
